@@ -1,4 +1,4 @@
-# adventofcode.com-2022 🎄
+# Advent of code 2022 🎄
 
 ## Purpose 💖
 For participating in https://adventofcode.com/2022
