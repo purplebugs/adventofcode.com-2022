@@ -14,7 +14,7 @@ export const day_2 = () => {
       .replace(/[CZ]/g, "S") // -> S for Scissors
       .split(","); // -> ["PS"];
 
-    return roundAsPaperScissorRock; // eg ["PS"],["RP"]
+    return roundAsPaperScissorRock;
   });
 
   const calculateScore = (opponent, me) => {
