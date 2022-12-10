@@ -51,6 +51,6 @@ export const day_1 = () => {
   console.log(
     `Total calories of top three elves with the most calories: ${sumTopThreeCaloriesPerElf(
       caloriesPerElfArraySorted
-    )}`
+    )}\n\n`
   );
 };
