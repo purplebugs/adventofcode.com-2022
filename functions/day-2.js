@@ -22,8 +22,6 @@ export const day_2 = () => {
   });
 
   const calculateScore = (opponent, me) => {
-    console.log("opponent:", opponent.toString());
-    console.log("me:", me.toString());
     const scoreForShapeSelected = () => {
       if (me === "R") {
         return 1;
@@ -62,12 +60,16 @@ export const day_2 = () => {
   };
 
   const arrayOfScores = arrayOfRounds.map((round) => {
-    const opponent = round[0].slice(0, 1); // ["PR"] -> "P"
-    const me = round[0].slice(1, 2); // ["PR"] -> "R"
-    return calculateScore(opponent, me);
+    return calculateScore(round[0][0], round[0][1]); // ["PR"] -> calculateScore("P", "R")
   });
 
-  console.log("DAY TWO - TODO\n");
-  //console.log(`arrayOfRounds: ${JSON.stringify(arrayOfRounds)}`);
-  console.log(`arrayOfScores: ${JSON.stringify(arrayOfScores)}`);
+  const sumOfScores = arrayOfScores.reduce(
+    (accumulator, currentValue) => accumulator + currentValue
+  );
+
+  console.log("DAY TWO  - Part One\n");
+  console.log(`Sum of scores: ${JSON.stringify(sumOfScores)}\n`);
+
+  console.log("DAY TWO  - Part Two\n");
+  console.log(`TO DO \n`);
 };
