@@ -7,15 +7,11 @@ export const day_2 = () => {
   const data = readFileSync(`./data/${day_2}`, "utf8");
 
   const arrayOfRounds = data.split("\n").map((round) => {
-    const regex1 = /[AX]/g;
-    const regex2 = /[BY]/g;
-    const regex3 = /[CZ]/g;
-
     const roundAsPaperScissorRock = round
       .replace(" ", "") // -> "BZ"
-      .replace(regex1, "R") // -> R for Rock
-      .replace(regex2, "P") // -> P for Paper
-      .replace(regex3, "S") // -> S for Scissors
+      .replace(/[AX]/g, "R") // -> R for Rock
+      .replace(/[BY]/g, "P") // -> P for Paper
+      .replace(/[CZ]/g, "S") // -> S for Scissors
       .split(","); // -> ["PS"];
 
     return roundAsPaperScissorRock; // eg ["AY"],["BY"]
@@ -23,15 +19,9 @@ export const day_2 = () => {
 
   const calculateScore = (opponent, me) => {
     const scoreForShapeSelected = () => {
-      if (me === "R") {
-        return 1;
-      }
-      if (me === "P") {
-        return 2;
-      }
-      if (me === "S") {
-        return 3;
-      }
+      if (me === "R") return 1;
+      if (me === "P") return 2;
+      if (me === "S") return 3;
     };
     const scoreWinLoseDraw = () => {
       if (
