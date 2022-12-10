@@ -61,12 +61,12 @@ export const day_2 = () => {
 
   const arrayOfScores_part_1 = arrayOfRounds.map((round) => {
     const scoreShape = scoreForShapeSelected(round[0][1]); // ["PR"] -> scoreForShapeSelected("R")
-    const scoreGame_1 = scoreWinLoseDraw_part_1(round[0][0], round[0][1]); // ["PR"] -> scoreWinLoseDraw("P","R")
+    const scoreGame_1 = scoreWinLoseDraw_part_1(round[0][0], round[0][1]); // ["PR"] -> scoreWinLoseDraw_part_1("P","R")
     return scoreShape + scoreGame_1;
   });
 
   const arrayOfScores_part_2 = arrayOfRounds.map((round) => {
-    return scoreWinLoseDraw_2(round[0][0], round[0][1]); // ["PR"] -> scoreWinLoseDraw("P","R")
+    return scoreWinLoseDraw_2(round[0][0], round[0][1]); // ["PR"] -> scoreWinLoseDraw_2("P","R")
   });
 
   console.log("DAY TWO  - Part One\n");
