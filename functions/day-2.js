@@ -29,20 +29,17 @@ export const day_2 = () => {
         (opponent == "R" && me == "P") ||
         (opponent == "S" && me == "R")
       ) {
-        // win
-        return 6;
+        return 6; // win
       }
       if (
         (me == "P" && opponent == "S") ||
         (me == "R" && opponent == "P") ||
         (me == "S" && opponent == "R")
       ) {
-        // lose
-        return 0;
+        return 0; // lose
       }
       if (opponent == me) {
-        // draw
-        return 3;
+        return 3; // draw
       }
     };
 
