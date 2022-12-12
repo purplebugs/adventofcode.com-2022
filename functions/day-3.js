@@ -111,5 +111,5 @@ export const day_3 = () => {
   );
 
   console.log("DAY THREE  - Part Two");
-  console.log(`TODO ${JSON.stringify(elfGroups)}\n`);
+  //console.log(`TODO ${JSON.stringify(elfGroups)}\n`);
 };
