@@ -113,19 +113,15 @@ export const day_3 = () => {
   console.log("DAY THREE  - Part One");
 
   console.log(
-    `Sum of rugsack rugsackPriorities: ${JSON.stringify(
-      rugsacks
-        .map((rugsack) => rugsack.priority)
-        .reduce((accumulator, currentValue) => accumulator + currentValue)
-    )}\n`
+    `Sum of rugsack rugsackPriorities: ${rugsacks
+      .map((rugsack) => rugsack.priority)
+      .reduce((accumulator, currentValue) => accumulator + currentValue)}\n`
   );
 
   console.log("DAY THREE  - Part Two");
   console.log(
-    `${JSON.stringify(
-      elfGroups
-        .map((group) => group.priority)
-        .reduce((accumulator, currentValue) => accumulator + currentValue)
-    )}\n`
+    `${elfGroups
+      .map((group) => group.priority)
+      .reduce((accumulator, currentValue) => accumulator + currentValue)}\n`
   );
 };
