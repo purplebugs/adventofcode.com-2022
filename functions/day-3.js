@@ -79,6 +79,27 @@ export const day_3 = () => {
     return splitRugsack;
   });
 
+  let elves = data.split("\n");
+  let elfGroups = [];
+
+  for (let i = 0; i < elves.length; i = i + 3) {
+    const one = elves[i];
+    const two = elves[i + 1];
+    const three = elves[i + 2];
+
+    // TODO check one, two and three, not just one against two
+    const regex = RegExp(`[${two}]`, "g");
+    const triplicate = one[one.search(regex)];
+
+    elfGroups.push({
+      one: one,
+      two: two,
+      three: three,
+      triplicate: triplicate,
+      priority: priority[triplicate],
+    });
+  }
+
   console.log("DAY THREE  - Part One");
 
   console.log(
@@ -90,5 +111,5 @@ export const day_3 = () => {
   );
 
   console.log("DAY THREE  - Part Two");
-  //console.log(`TODO \n`);
+  console.log(`TODO ${JSON.stringify(elfGroups)}\n`);
 };
