@@ -68,7 +68,7 @@ export const day_3 = () => {
       second: rugsack.slice(length / 2, length),
     };
 
-    const regex = /[splitRugsack.second]/; // TODO should not interpret literal here
+    const regex = RegExp(`[${splitRugsack.second}]`, "g");
     const duplicate = splitRugsack.first[splitRugsack.first.search(regex)]; // splitRugsack.first.search(regex) is index
     splitRugsack = {
       ...splitRugsack,
@@ -80,7 +80,14 @@ export const day_3 = () => {
   });
 
   console.log("DAY THREE  - Part One");
-  //console.log(`TODO ${JSON.stringify(rugsacks)} \n`);
+
+  console.log(
+    `Sum of rugsack rugsackPriorities: ${JSON.stringify(
+      rugsacks
+        .map((rugsack) => rugsack.priority)
+        .reduce((accumulator, currentValue) => accumulator + currentValue)
+    )}\n`
+  );
 
   console.log("DAY THREE  - Part Two");
   //console.log(`TODO \n`);
