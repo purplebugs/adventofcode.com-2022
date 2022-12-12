@@ -83,20 +83,30 @@ export const day_3 = () => {
   let elfGroups = [];
 
   for (let i = 0; i < elves.length; i = i + 3) {
-    const one = elves[i];
-    const two = elves[i + 1];
-    const three = elves[i + 2];
+    // Create arrays of distinct chars
+    const one = [...new Set(elves[i].split(""))];
+    const two = [...new Set(elves[i + 1].split(""))];
+    const three = [...new Set(elves[i + 2].split(""))];
 
-    // TODO check one, two and three, not just one against two
-    const regex = RegExp(`[${two}]`, "g");
-    const triplicate = one[one.search(regex)];
+    const findMatches = (one, two) => {
+      const match = [];
+      one.forEach((letter) => {
+        if (two.includes(letter)) {
+          match.push(letter);
+        }
+      });
+      return match;
+    };
+
+    let match = findMatches(one, two);
+    match = findMatches(match, three);
 
     elfGroups.push({
       one: one,
       two: two,
       three: three,
-      triplicate: triplicate,
-      priority: priority[triplicate],
+      match: match,
+      priority: priority[match],
     });
   }
 
@@ -111,5 +121,11 @@ export const day_3 = () => {
   );
 
   console.log("DAY THREE  - Part Two");
-  //console.log(`TODO ${JSON.stringify(elfGroups)}\n`);
+  console.log(
+    `${JSON.stringify(
+      elfGroups
+        .map((group) => group.priority)
+        .reduce((accumulator, currentValue) => accumulator + currentValue)
+    )}\n`
+  );
 };
