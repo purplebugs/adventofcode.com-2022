@@ -80,7 +80,7 @@ export const day_3 = () => {
   });
 
   console.log("DAY THREE  - Part One");
-  console.log(`TODO ${JSON.stringify(rugsacks)} \n`);
+  //console.log(`TODO ${JSON.stringify(rugsacks)} \n`);
 
   console.log("DAY THREE  - Part Two");
   //console.log(`TODO \n`);
