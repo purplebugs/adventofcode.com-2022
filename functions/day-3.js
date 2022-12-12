@@ -61,10 +61,26 @@ export const day_3 = () => {
     Z: 52,
   };
 
-  const rugsacks = data.split("\n");
+  const rugsacks = data.split("\n").map((rugsack) => {
+    const length = rugsack.length;
+    let splitRugsack = {
+      first: rugsack.slice(0, length / 2),
+      second: rugsack.slice(length / 2, length),
+    };
+
+    const regex = /[splitRugsack.second]/; // TODO should not interpret literal here
+    const duplicate = splitRugsack.first[splitRugsack.first.search(regex)]; // splitRugsack.first.search(regex) is index
+    splitRugsack = {
+      ...splitRugsack,
+      duplicate: duplicate,
+      priority: priority[duplicate],
+    };
+
+    return splitRugsack;
+  });
 
   console.log("DAY THREE  - Part One");
-  //console.log(`TODO ${rugsacks} \n`);
+  console.log(`TODO ${JSON.stringify(rugsacks)} \n`);
 
   console.log("DAY THREE  - Part Two");
   //console.log(`TODO \n`);
