@@ -29,21 +29,67 @@ export const day_5 = () => {
     const eight = line.substring(29, 30);
     const nine = line.substring(33, 34);
     rows.push(one, two, three, four, five, six, seven, eight, nine);
-    cargo[1].unshift(one);
-    cargo[2].unshift(two);
-    cargo[3].unshift(three);
-    cargo[4].unshift(four);
-    cargo[5].unshift(five);
-    cargo[6].unshift(six);
-    cargo[7].unshift(seven);
-    cargo[8].unshift(eight);
-    cargo[9].unshift(nine);
+
+    if (one !== " ") {
+      cargo[1].unshift(one);
+    }
+    if (two !== " ") {
+      cargo[2].unshift(two);
+    }
+    if (three !== " ") {
+      cargo[3].unshift(three);
+    }
+    if (four !== " ") {
+      cargo[4].unshift(four);
+    }
+    if (five !== " ") {
+      cargo[5].unshift(five);
+    }
+    if (six !== " ") {
+      cargo[6].unshift(six);
+    }
+    if (seven !== " ") {
+      cargo[7].unshift(seven);
+    }
+    if (eight !== " ") {
+      cargo[8].unshift(eight);
+    }
+    if (nine !== " ") {
+      cargo[9].unshift(nine);
+    }
   });
 
+  let instructions = {};
+  instructions = data
+    .split("\n")
+    .splice(10, 512)
+    .map((line) => {
+      return {
+        move: +line.substring(5, 6),
+        from: +line.substring(12, 13),
+        to: +line.substring(17, 18),
+      };
+    });
+
+  const moveCargo = (move, from, to) => {
+    const temp = cargo[from].slice(-move).reverse();
+    cargo[from].splice(-move, move);
+    cargo[to].push(...temp);
+  };
+
+  // instructions.forEach((instruction, i) => {
+  //   console.log(`${JSON.stringify(instruction)} - ${i}`);
+  //   console.log(instruction.move);
+  //   moveCargo(instruction.move, instruction.from, instruction.to);
+  // });
+
+  // console.log(`${JSON.stringify(cargo)}\n`);
+  // moveCargo(1, 5, 2);
+  // console.log(`${JSON.stringify(cargo)}\n`);
+  // moveCargo(7, 7, 1);
+
   console.log("DAY FIVE - Part One");
-
-  console.log(`TODO \n${JSON.stringify(cargo)}\n`);
-
+  console.log(`TODO - ${JSON.stringify(cargo)}\n`);
   console.log("DAY FIVE - Part Two");
   console.log(`TODO\n\n`);
 };
