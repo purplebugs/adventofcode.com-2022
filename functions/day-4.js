@@ -52,7 +52,7 @@ export const day_4 = () => {
     return pair;
   });
 
-  console.log("DAY FOUR  - Part One");
+  console.log("DAY FOUR - Part One");
 
   console.log(
     `Total contained pairs: ${pairs
@@ -60,10 +60,10 @@ export const day_4 = () => {
       .reduce((accumulator, currentValue) => accumulator + currentValue)}\n`
   );
 
-  console.log("DAY FOUR  - Part Two");
+  console.log("DAY FOUR - Part Two");
   console.log(
     `Total overlapping pairs: ${pairs
       .map((pair) => pair.isOverlapp)
-      .reduce((accumulator, currentValue) => accumulator + currentValue)}\n`
+      .reduce((accumulator, currentValue) => accumulator + currentValue)}\n\n`
   );
 };
