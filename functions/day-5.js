@@ -64,10 +64,12 @@ export const day_5 = () => {
     .split("\n")
     .splice(10, 512)
     .map((line) => {
+      const parts = line.split(" ");
+
       return {
-        move: +line.substring(5, 6),
-        from: +line.substring(12, 13),
-        to: +line.substring(17, 18),
+        move: +parts[1],
+        from: +parts[3],
+        to: +parts[5],
       };
     });
 
@@ -77,19 +79,20 @@ export const day_5 = () => {
     cargo[to].push(...temp);
   };
 
-  // instructions.forEach((instruction, i) => {
-  //   console.log(`${JSON.stringify(instruction)} - ${i}`);
-  //   console.log(instruction.move);
-  //   moveCargo(instruction.move, instruction.from, instruction.to);
-  // });
+  instructions.forEach((instruction, i) => {
+    moveCargo(instruction.move, instruction.from, instruction.to);
+  });
 
   // console.log(`${JSON.stringify(cargo)}\n`);
-  // moveCargo(1, 5, 2);
-  // console.log(`${JSON.stringify(cargo)}\n`);
-  // moveCargo(7, 7, 1);
+
+  let tops = [];
+
+  for (let i = 1; i <= 9; i++) {
+    tops.push(cargo[i][cargo[i].length - 1]);
+  }
 
   console.log("DAY FIVE - Part One");
-  console.log(`TODO - ${JSON.stringify(cargo)}\n`);
+  console.log(`Crates on top of each stack: ${tops.join("")}\n`);
   console.log("DAY FIVE - Part Two");
   console.log(`TODO\n\n`);
 };
