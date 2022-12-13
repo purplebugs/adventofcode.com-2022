@@ -16,17 +16,38 @@ export const day_4 = () => {
       .split(",")[1]
       .split("-")
       .map((str) => +str); // 80-92 -> "B":[80,92]}
-    let isMatch = 0;
+    let isContained = 0;
+    let isOverlapp = 0;
     if (A[0] >= B[0] && A[1] <= B[1]) {
-      isMatch = 1;
+      isContained = 1;
+      isOverlapp = 1;
     }
     if (B[0] >= A[0] && B[1] <= A[1]) {
-      isMatch = 1;
+      isContained = 1;
+      isOverlapp = 1;
     }
+
+    if (A[0] >= B[0] && A[0] <= B[1]) {
+      isOverlapp = 1;
+    }
+
+    if (A[1] >= B[0] && A[1] <= B[1]) {
+      isOverlapp = 1;
+    }
+
+    if (B[0] >= A[0] && B[0] <= A[1]) {
+      isOverlapp = 1;
+    }
+
+    if (B[1] >= A[0] && B[1] <= A[1]) {
+      isOverlapp = 1;
+    }
+
     const pair = {
       A: A,
       B: B,
-      isMatch: isMatch,
+      isContained: isContained,
+      isOverlapp: isOverlapp,
     };
     return pair;
   });
@@ -34,11 +55,15 @@ export const day_4 = () => {
   console.log("DAY FOUR  - Part One");
 
   console.log(
-    `Total overlapping pairs: ${pairs
-      .map((pair) => pair.isMatch)
+    `Total contained pairs: ${pairs
+      .map((pair) => pair.isContained)
       .reduce((accumulator, currentValue) => accumulator + currentValue)}\n`
   );
 
   console.log("DAY FOUR  - Part Two");
-  console.log(`TODO \n\n`);
+  console.log(
+    `Total overlapping pairs: ${pairs
+      .map((pair) => pair.isOverlapp)
+      .reduce((accumulator, currentValue) => accumulator + currentValue)}\n`
+  );
 };
