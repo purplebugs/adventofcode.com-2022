@@ -6,6 +6,8 @@ export const day_5 = () => {
   // Read file from disk
   const data = readFileSync(`./data/${day_5}`, "utf8");
   const crates = data.split("\n").splice(0, 8);
+
+  // PART ONE
   let cargo = {
     1: [],
     2: [],
@@ -94,6 +96,8 @@ export const day_5 = () => {
     topsPartOne.push(cargo[i][cargo[i].length - 1]);
   }
 
+  // PART TWO - re initialise cargo since functions modify arrays in place
+  // and we don't want PART TWO to start with the configuration of cargo from PART ONE
   cargo = {
     1: [],
     2: [],
