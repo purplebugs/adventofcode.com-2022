@@ -120,8 +120,8 @@ export const day_3 = () => {
 
   console.log("DAY THREE  - Part Two");
   console.log(
-    `Sum of item type priorities ${elfGroups
+    `Sum of item type priorities: ${elfGroups
       .map((group) => group.priority)
-      .reduce((accumulator, currentValue) => accumulator + currentValue)}\n`
+      .reduce((accumulator, currentValue) => accumulator + currentValue)}\n\n`
   );
 };
