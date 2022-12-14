@@ -7,8 +7,6 @@ export const day_6 = () => {
   const data = readFileSync(`./data/${day_6}`, "utf8");
   const signals = data.split("");
 
-  let charsProcessed = 0;
-
   const findAdjoiningUniqueCharsEndPosition = (signals, span) => {
     for (let i = 0; i < signals.length - (span - 1); i++) {
       // Create array of distinct chars
@@ -23,7 +21,7 @@ export const day_6 = () => {
 
       if (distinctChars.length === span) {
         // Found unique set of adjacent chars
-        return (charsProcessed = i + span);
+        return i + span;
       }
     }
   };
