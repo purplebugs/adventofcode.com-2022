@@ -61,7 +61,7 @@ export const day_7 = () => {
   });
 
   console.log("DAY SEVEN - Part One");
-  console.log(`TODO: ${JSON.stringify(entries)}\n`);
+  //console.log(`TODO: ${JSON.stringify(entries)}\n`);
   console.log("DAY SEVEN - Part Two");
   console.log(`TODO: \n\n`);
 };
