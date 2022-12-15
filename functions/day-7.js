@@ -8,33 +8,38 @@ export const day_7 = () => {
 
   let currentLevel = 0;
   let currentParent = 0;
-
+  const parents = [];
   const entries = commands.map((command, i) => {
     if (command.startsWith("$ cd ")) {
       const value = command.substring(5);
       if (value === "/") {
         currentLevel = 0;
+        currentParent = null;
       }
       if (value === "..") {
         currentLevel -= 1;
+        currentParent = parents[currentLevel].id;
       }
       if (value !== "/" && value !== "..") {
         currentLevel += 1;
+        currentParent = parents[currentLevel - 1].id;
       }
-      return {
+      const obj = {
         id: i,
         command: "cd",
         value: value,
-        level: currentLevel, // TODO
+        level: currentLevel,
         parent: currentParent, // TODO
       };
+      parents.push(obj);
+      return obj;
     }
     if (command.startsWith("dir ")) {
       return {
         id: i,
         command: "dir",
         value: command.substring(4),
-        level: currentLevel, // TODO
+        level: currentLevel,
         parent: currentParent, // TODO
       };
     }
@@ -42,7 +47,7 @@ export const day_7 = () => {
       return {
         id: i,
         command: "ls",
-        level: currentLevel, // TODO
+        level: currentLevel,
         parent: currentParent, // TODO
       };
     }
@@ -54,14 +59,15 @@ export const day_7 = () => {
         command: "file",
         size: fileSize[0],
         value: command.substring(fileSize[0].length + 1),
-        level: currentLevel, // TODO
+        level: currentLevel,
         parent: currentParent, // TODO
       };
     }
   });
 
   console.log("DAY SEVEN - Part One");
-  //console.log(`TODO: ${JSON.stringify(entries)}\n`);
+  // console.log(`TODO: ${JSON.stringify(parents)}\n`);
+  // console.log(`TODO: ${JSON.stringify(entries)}\n`);
   console.log("DAY SEVEN - Part Two");
   console.log(`TODO: \n\n`);
 };
