@@ -20,8 +20,8 @@ export const day_7 = () => {
           level: 0,
           parent: null,
         };
-        if (!parents.get(0)) {
-          parents.set(0, i);
+        if (!parents.get(`0:${value}`)) {
+          parents.set(`"0:${value}"`, i);
         }
       }
       if (value !== "/" && value !== "..") {
@@ -29,7 +29,6 @@ export const day_7 = () => {
         obj = {
           ...obj,
           level: level,
-          parent: parents.get(level - 1),
         };
       }
       if (value === "..") {
@@ -37,22 +36,25 @@ export const day_7 = () => {
         obj = {
           ...obj,
           level: level,
-          parent: parents.get(level - 2),
         };
       }
 
       return obj;
     }
     if (command.startsWith("dir ")) {
-      if (!parents.get(level)) {
-        parents.set(level, i);
+      const value = command.substring(4);
+      // console.log(`${level}:${value}`);
+      // console.log(parents.get("0:a"));
+      // console.log("*****");
+      if (!parents.get(`${level - 1}:${value}`)) {
+        parents.set(`"${level}:${value}"`, i);
       }
       return {
         id: i,
         command: "dir",
-        value: command.substring(4),
+        value: value,
         level: level,
-        parent: parents.get(level - 1),
+        parent: parents.get(`${level}:${value}`),
       };
     }
     if (command.startsWith("$ ls")) {
@@ -76,15 +78,13 @@ export const day_7 = () => {
     }
   });
 
-  // function logMapElements(value, key) {
-  //   console.log(`parents[${key}] = ${value}`);
-  // }
+  function logMapElements(value, key) {
+    console.log(`parents[${key}] = ${value}`);
+  }
 
   // parents.forEach(logMapElements);
 
   console.log("DAY SEVEN - Part One");
-  // console.log(`TODO:  parents ${JSON.stringify(parents)}\n`);
-  //console.log(`-------------`);
   //console.log(`TODO: ${JSON.stringify(entries)}\n`);
   console.log("DAY SEVEN - Part Two");
   console.log(`TODO: \n\n`);
