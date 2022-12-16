@@ -83,8 +83,30 @@ export const day_7 = () => {
 
   // parents.forEach(logMapElements);
 
-  console.log(`TODO: ${JSON.stringify(entries)}\n`);
-  // console.log(`TODO: ${JSON.stringify(toTree(entries))}\n`);
+  const toTree = (entries) => {
+    console.log("toTree");
+    return entries.map((entry, i) => {
+      console.log("******", i);
+
+      const nextObj = {};
+      for (const [key, value] of Object.entries(entry)) {
+        console.log(`${key}: ${JSON.stringify(value)}`);
+
+        // TODO fill out values in recursion
+        // currently returns: [{"children":[]},null,null,{"children":[]},{"children":[]},null,null,null,null,null,null,null,null]
+        if (key == "children") {
+          console.log(`ENTRY: ${JSON.stringify(entry.level)}`);
+          nextObj[key] = toTree(
+            entries.filter((entry) => entry.level == "TODO")
+          );
+          return nextObj;
+        }
+      }
+    });
+  };
+
+  // console.log(`TODO: ${JSON.stringify(entries)}\n`);
+  //console.log(`TODO: ${JSON.stringify(toTree(entries))}\n`);
   console.log("DAY SEVEN - Part Two");
   console.log(`TODO: \n\n`);
 };
