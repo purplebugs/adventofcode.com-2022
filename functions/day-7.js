@@ -7,7 +7,6 @@ export const day_7 = () => {
   const commands = data.split("\n");
 
   let level = 0;
-  let parent = 0;
   const parents = new Map();
 
   const entries = commands.map((command, i) => {
@@ -18,12 +17,13 @@ export const day_7 = () => {
         obj = {
           ...obj,
           level: 0,
-          parent: null,
         };
-        if (!parents.get(`0:${value}`)) {
-          parents.set(`"0:${value}"`, i);
+        const rootParent = parents.get(`0:${value}`);
+        if (rootParent === undefined) {
+          parents.set(`0:${value}`, i);
         }
       }
+
       if (value !== "/" && value !== "..") {
         level += 1;
         obj = {
@@ -43,18 +43,13 @@ export const day_7 = () => {
     }
     if (command.startsWith("dir ")) {
       const value = command.substring(4);
-      // console.log(`${level}:${value}`);
-      // console.log(parents.get("0:a"));
-      // console.log("*****");
-      if (!parents.get(`${level - 1}:${value}`)) {
-        parents.set(`"${level}:${value}"`, i);
-      }
+      parents.set(`${level}:${value}`, i);
       return {
         id: i,
         command: "dir",
         value: value,
         level: level,
-        parent: parents.get(`${level}:${value}`),
+        children: [],
       };
     }
     if (command.startsWith("$ ls")) {
@@ -73,7 +68,6 @@ export const day_7 = () => {
         size: fileSize[0],
         value: command.substring(fileSize[0].length + 1),
         level: level,
-        parent: parents.get(level - 1),
       };
     }
   });
@@ -82,7 +76,9 @@ export const day_7 = () => {
     console.log(`parents[${key}] = ${value}`);
   }
 
-  // parents.forEach(logMapElements);
+  //parents.forEach(logMapElements);
+
+  // TODO Build tree with recursion
 
   console.log("DAY SEVEN - Part One");
   //console.log(`TODO: ${JSON.stringify(entries)}\n`);
