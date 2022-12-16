@@ -55,7 +55,11 @@ export const day_7 = () => {
       }
 
       if (command.startsWith("$ ls")) {
-        return null;
+        return {
+          id: i,
+          command: "ls",
+          level: level,
+        };
       }
       const regex = RegExp(`([0-9])*`, "g");
       const fileSize = command.match(regex);
@@ -69,18 +73,18 @@ export const day_7 = () => {
         };
       }
     })
-    .filter((entry) => entry !== null);
+    .filter((entry) => entry.command !== "ls")
+    .filter((entry) => entry.command !== "cd");
 
   console.log("DAY SEVEN - Part One");
   function logMapElements(value, key) {
     console.log(`parents[${key}] = ${value}`);
   }
 
-  parents.forEach(logMapElements);
-
-  // TODO Build tree with recursion
+  // parents.forEach(logMapElements);
 
   console.log(`TODO: ${JSON.stringify(entries)}\n`);
+  // console.log(`TODO: ${JSON.stringify(toTree(entries))}\n`);
   console.log("DAY SEVEN - Part Two");
   console.log(`TODO: \n\n`);
 };
