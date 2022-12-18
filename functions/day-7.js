@@ -81,26 +81,31 @@ export const day_7 = () => {
   console.log("DAY SEVEN - Part One");
 
   const toTree = (nodes) => {
-    return nodes.map((node) => {
-      const level = node.level;
+    let currentChildren = [];
+    let children = [];
+    let parentNodeId = null;
+    let parentNode = null;
+    return nodes.reverse().map((node) => {
+      console.log(node);
+      // Reverse input to process from bottom up to simplify exit conditions logic
+      if (node.command == "file" || node.command == "dir") {
+        return currentChildren.push(node);
+      }
 
-      for (const [key, value] of Object.entries(node)) {
-        const nextObj = {
-          command: "dir",
-          value: node[value],
-        };
-        //console.log(`HELLO ${key}: ${JSON.stringify(value)}`);
-
-        // TODO fill out values in recursion
-        if (key == "children") {
-          //console.log(`NODE: ${JSON.stringify(node)}`);
-          nextObj[key] = toTree(
-            nodes.filter(
-              (node) => node.level == level && node.command == "file"
-            ) // return nodes from array with matching level
-          );
-          return { ...nextObj }; // TODO return the other fields as is
-        }
+      if (node.command === "ls") {
+        // clear accumulators
+        children = currentChildren;
+        currentChildren = [];
+        parentNodeId = null;
+        return;
+      }
+      if (node.command === "cd" && node.value !== ".." && node.value !== "/") {
+        parentNodeId = parents.get(`${node.level - 1}:${node.value}`);
+        parentNode = nodes.find((node) => node.id == parentNodeId);
+        console.log(`parentNode: ${JSON.stringify(parentNode)}`);
+        console.log(`children: ${JSON.stringify(children)}`);
+        // TODO add children to the parentNode // (node.children = [...children])
+        return; // TODO recursive
       }
     });
   };
@@ -109,11 +114,11 @@ export const day_7 = () => {
     console.log(`parents[${key}] = ${value}`);
   }
 
-  parents.forEach(logMapElements);
+  //parents.forEach(logMapElements);
+  //console.log("*************");
+  //console.log(`TODO: ${JSON.stringify(cleanCommands)}\n`);
   console.log("*************");
-  console.log(`TODO: ${JSON.stringify(cleanCommands)}\n`);
-  console.log("*************");
-  //console.log(`TODO: ${JSON.stringify(toTree(cleanCommands))}\n`);
+  console.log(`TODO: ${JSON.stringify(toTree(cleanCommands))}\n`);
   console.log("DAY SEVEN - Part Two");
   console.log(`TODO: \n\n`);
 };
