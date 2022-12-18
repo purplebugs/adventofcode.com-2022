@@ -1,124 +1,96 @@
 import { readFileSync } from "fs";
 
+class Node {
+  constructor(type = "", name = "", size = 0) {
+    this.type = type;
+    this.name = name;
+    this.size = size;
+    this.children = [];
+    this.parent;
+  }
+
+  addChild(node) {
+    this.children.push(node);
+  }
+
+  cd(name) {
+    if (name === "..") {
+      return this.parent;
+    }
+
+    if (name !== "..") {
+      return this.children.filter((child) => child.name === name)[0]; // Should only be one unique dir name in children list
+    }
+
+    return this; // Safeguard to when get to root dir;
+  }
+
+  addParent(node) {
+    this.parent = node;
+  }
+
+  getChildrenSize() {
+    // TODO calculate sum of children
+  }
+
+  toJSON() {
+    return {
+      name: this.name,
+      size: this.size,
+      type: this.type,
+      children: this.children,
+      // do not print out parent to avoid circular dependencies when console.log
+    };
+  }
+}
+
 export const day_7 = () => {
   const day_7 = "day-7.txt"; //  https://adventofcode.com/2022/day/7
-
   const data = readFileSync(`./data/${day_7}`, "utf8");
   const commands = data.split("\n");
-
+  let fileTree = new Node("dir", "root"); // Naive, assume only ever have "$ cd /" once, and this is hardcoded
+  let currentPosition = fileTree;
   let level = 0;
-  const parents = new Map();
 
-  const cleanCommands = commands.map((command, i) => {
+  commands.forEach((command) => {
     if (command.startsWith("$ cd ")) {
       const value = command.substring(5);
-      let obj = { id: i, command: "cd", value: value };
+
       if (value === "/") {
-        // Naive, assume only ever have "$ cd /" once
-        obj = {
-          id: i,
-          command: "dir",
-          value: value,
-          level: 0,
-          children: [],
-        };
-        if (!parents.get(`0:${value}`)) {
-          parents.set(`0:${value}`, i);
-        }
+        // Do nothing, handled when initite fileTree
+        return;
       }
 
-      if (value !== "/" && value !== "..") {
-        level += 1;
-        obj = {
-          ...obj,
-          level: level,
-        };
-      }
-      if (value === "..") {
-        level -= 1;
-        obj = {
-          ...obj,
-          level: level,
-        };
-      }
-
-      return obj;
+      currentPosition = currentPosition.cd(value);
+      return;
     }
+
     if (command.startsWith("dir ")) {
       const value = command.substring(4);
-      if (!parents.get(`${level - 1}:${value}`)) {
-        parents.set(`${level}:${value}`, i);
-      }
-      return {
-        id: i,
-        command: "dir",
-        value: value,
-        level: level,
-        children: [],
-      };
+      const node = new Node("dir", value);
+      node.addParent(currentPosition);
+      currentPosition.addChild(node);
     }
 
     if (command.startsWith("$ ls")) {
-      return {
-        id: i,
-        command: "ls",
-        level: level,
-      };
+      return;
     }
+
     const regex = RegExp(`([0-9])*`, "g");
     const fileSize = command.match(regex);
     if (command.match(regex)) {
-      return {
-        id: i,
-        command: "file",
-        size: fileSize[0],
-        value: command.substring(fileSize[0].length + 1),
-        level: level,
-      };
+      fileTree.addChild(
+        "dir",
+        command.substring(fileSize[0].length + 1),
+        fileSize[0]
+      );
     }
   });
 
   console.log("DAY SEVEN - Part One");
 
-  const toTree = (nodes) => {
-    let currentChildren = [];
-    let children = [];
-    let parentNodeId = null;
-    let parentNode = null;
-    return nodes.reverse().map((node) => {
-      console.log(node);
-      // Reverse input to process from bottom up to simplify exit conditions logic
-      if (node.command == "file" || node.command == "dir") {
-        return currentChildren.push(node);
-      }
-
-      if (node.command === "ls") {
-        // clear accumulators
-        children = currentChildren;
-        currentChildren = [];
-        parentNodeId = null;
-        return;
-      }
-      if (node.command === "cd" && node.value !== ".." && node.value !== "/") {
-        parentNodeId = parents.get(`${node.level - 1}:${node.value}`);
-        parentNode = nodes.find((node) => node.id == parentNodeId);
-        console.log(`parentNode: ${JSON.stringify(parentNode)}`);
-        console.log(`children: ${JSON.stringify(children)}`);
-        // TODO add children to the parentNode // (node.children = [...children])
-        return; // TODO recursive
-      }
-    });
-  };
-
-  function logMapElements(value, key) {
-    console.log(`parents[${key}] = ${value}`);
-  }
-
-  //parents.forEach(logMapElements);
-  //console.log("*************");
-  //console.log(`TODO: ${JSON.stringify(cleanCommands)}\n`);
   console.log("*************");
-  console.log(`TODO: ${JSON.stringify(toTree(cleanCommands))}\n`);
+  console.log(`TODO: ${JSON.stringify(fileTree)}\n`);
   console.log("DAY SEVEN - Part Two");
   console.log(`TODO: \n\n`);
 };
