@@ -7,77 +7,73 @@ export const day_7 = () => {
   const commands = data.split("\n");
 
   let level = 0;
+  let addNextCommandAsChild = false;
 
-  const cleanCommands = commands
-    .map((command, i) => {
-      if (command.startsWith("$ cd ")) {
-        const value = command.substring(5);
-        let obj = { id: i, command: "cd", value: value };
-        if (value === "/") {
-          level = 0;
-          obj = {
-            ...obj,
-            level: level,
-          };
-        }
-
-        if (value !== "/" && value !== "..") {
-          level += 1;
-          obj = {
-            ...obj,
-            level: level,
-          };
-        }
-        if (value === "..") {
-          level -= 1;
-          obj = {
-            ...obj,
-            level: level,
-          };
-        }
-
-        return obj;
-      }
-      if (command.startsWith("dir ")) {
-        const value = command.substring(4);
-
-        return {
-          id: i,
-          command: "dir",
-          value: value,
-          level: level,
-          children: [],
-        };
-      }
-
-      if (command.startsWith("$ ls")) {
-        return {
-          id: i,
-          command: "ls",
+  const cleanCommands = commands.map((command, i) => {
+    if (command.startsWith("$ cd ")) {
+      addNextCommandAsChild = false;
+      const value = command.substring(5);
+      let obj = { id: i, command: "cd", value: value };
+      if (value === "/") {
+        // Naive, assume only ever have "$ cd /" once
+        level = 0;
+        obj = {
+          ...obj,
           level: level,
         };
       }
-      const regex = RegExp(`([0-9])*`, "g");
-      const fileSize = command.match(regex);
-      if (command.match(regex)) {
-        return {
-          id: i,
-          command: "file",
-          size: fileSize[0],
-          value: command.substring(fileSize[0].length + 1),
+
+      if (value !== "/" && value !== "..") {
+        level += 1;
+        obj = {
+          ...obj,
           level: level,
         };
       }
-    })
-    .filter((entry) => entry.command !== "ls")
-    .filter((entry) => entry.command !== "cd");
+      if (value === "..") {
+        level -= 1;
+        obj = {
+          ...obj,
+          level: level,
+        };
+      }
 
-  cleanCommands.unshift({
-    command: "dir",
-    value: "/",
-    level: 0,
-    children: [],
+      return obj;
+    }
+    if (command.startsWith("dir ")) {
+      const value = command.substring(4);
+
+      return {
+        id: i,
+        command: "dir",
+        value: value,
+        level: level,
+        children: [],
+      };
+    }
+
+    if (command.startsWith("$ ls")) {
+      addNextCommandAsChild = true;
+      return {
+        id: i,
+        command: "ls",
+        level: level,
+      };
+    }
+    const regex = RegExp(`([0-9])*`, "g");
+    const fileSize = command.match(regex);
+    if (command.match(regex)) {
+      return {
+        id: i,
+        command: "file",
+        size: fileSize[0],
+        value: command.substring(fileSize[0].length + 1),
+        level: level,
+      };
+    }
   });
+  //.filter((entry) => entry.command !== "ls")
+  //.filter((entry) => entry.command !== "cd");
 
   console.log("DAY SEVEN - Part One");
 
@@ -112,7 +108,7 @@ export const day_7 = () => {
     });
   };
 
-  //console.log(`TODO: ${JSON.stringify(cleanCommands)}\n`);
+  console.log(`TODO: ${JSON.stringify(cleanCommands)}\n`);
   //console.log("*************");
   //console.log(`TODO: ${JSON.stringify(toTree(cleanCommands))}\n`);
   console.log("DAY SEVEN - Part Two");
