@@ -7,22 +7,18 @@ export const day_7 = () => {
   const commands = data.split("\n");
 
   let level = 0;
-  const parents = new Map();
 
-  const entries = commands
+  const cleanCommands = commands
     .map((command, i) => {
       if (command.startsWith("$ cd ")) {
         const value = command.substring(5);
         let obj = { id: i, command: "cd", value: value };
         if (value === "/") {
+          level = 0;
           obj = {
             ...obj,
-            level: 0,
+            level: level,
           };
-          const rootParent = parents.get(`0:${value}`);
-          if (rootParent === undefined) {
-            parents.set(`0:${value}`, i);
-          }
         }
 
         if (value !== "/" && value !== "..") {
@@ -44,7 +40,7 @@ export const day_7 = () => {
       }
       if (command.startsWith("dir ")) {
         const value = command.substring(4);
-        parents.set(`${level}:${value}`, i);
+
         return {
           id: i,
           command: "dir",
@@ -76,37 +72,49 @@ export const day_7 = () => {
     .filter((entry) => entry.command !== "ls")
     .filter((entry) => entry.command !== "cd");
 
+  cleanCommands.unshift({
+    command: "dir",
+    value: "/",
+    level: 0,
+    children: [],
+  });
+
   console.log("DAY SEVEN - Part One");
-  function logMapElements(value, key) {
-    console.log(`parents[${key}] = ${value}`);
-  }
 
-  // parents.forEach(logMapElements);
+  const toTree = (nodes) => {
+    return nodes.map((node) => {
+      // if (!node.level) {
+      //   return node;
+      // }
+      // if (Object.hasOwn(node, "anita")) {
+      //   return node;
+      // }
+      const level = node.level;
 
-  const toTree = (entries) => {
-    console.log("toTree");
-    return entries.map((entry, i) => {
-      console.log("******", i);
-
-      const nextObj = {};
-      for (const [key, value] of Object.entries(entry)) {
-        console.log(`${key}: ${JSON.stringify(value)}`);
+      for (const [key, value] of Object.entries(node)) {
+        const nextObj = {
+          command: "dir",
+          value: node[value],
+        };
+        //console.log(`HELLO ${key}: ${JSON.stringify(value)}`);
 
         // TODO fill out values in recursion
-        // currently returns: [{"children":[]},null,null,{"children":[]},{"children":[]},null,null,null,null,null,null,null,null]
         if (key == "children") {
-          console.log(`ENTRY: ${JSON.stringify(entry.level)}`);
+          //console.log(`NODE: ${JSON.stringify(node)}`);
           nextObj[key] = toTree(
-            entries.filter((entry) => entry.level == "TODO")
+            nodes.filter(
+              (node) => node.level == level && node.command == "file"
+            ) // return nodes from array with matching level
           );
-          return nextObj;
+          return { ...nextObj }; // TODO return the other fields as is
         }
       }
     });
   };
 
-  // console.log(`TODO: ${JSON.stringify(entries)}\n`);
-  //console.log(`TODO: ${JSON.stringify(toTree(entries))}\n`);
+  //console.log(`TODO: ${JSON.stringify(cleanCommands)}\n`);
+  //console.log("*************");
+  //console.log(`TODO: ${JSON.stringify(toTree(cleanCommands))}\n`);
   console.log("DAY SEVEN - Part Two");
   console.log(`TODO: \n\n`);
 };
