@@ -7,20 +7,24 @@ export const day_7 = () => {
   const commands = data.split("\n");
 
   let level = 0;
-  let addNextCommandAsChild = false;
+  const parents = new Map();
 
   const cleanCommands = commands.map((command, i) => {
     if (command.startsWith("$ cd ")) {
-      addNextCommandAsChild = false;
       const value = command.substring(5);
       let obj = { id: i, command: "cd", value: value };
       if (value === "/") {
         // Naive, assume only ever have "$ cd /" once
-        level = 0;
         obj = {
-          ...obj,
-          level: level,
+          id: i,
+          command: "dir",
+          value: value,
+          level: 0,
+          children: [],
         };
+        if (!parents.get(`0:${value}`)) {
+          parents.set(`0:${value}`, i);
+        }
       }
 
       if (value !== "/" && value !== "..") {
@@ -42,7 +46,9 @@ export const day_7 = () => {
     }
     if (command.startsWith("dir ")) {
       const value = command.substring(4);
-
+      if (!parents.get(`${level - 1}:${value}`)) {
+        parents.set(`${level}:${value}`, i);
+      }
       return {
         id: i,
         command: "dir",
@@ -53,7 +59,6 @@ export const day_7 = () => {
     }
 
     if (command.startsWith("$ ls")) {
-      addNextCommandAsChild = true;
       return {
         id: i,
         command: "ls",
@@ -72,19 +77,11 @@ export const day_7 = () => {
       };
     }
   });
-  //.filter((entry) => entry.command !== "ls")
-  //.filter((entry) => entry.command !== "cd");
 
   console.log("DAY SEVEN - Part One");
 
   const toTree = (nodes) => {
     return nodes.map((node) => {
-      // if (!node.level) {
-      //   return node;
-      // }
-      // if (Object.hasOwn(node, "anita")) {
-      //   return node;
-      // }
       const level = node.level;
 
       for (const [key, value] of Object.entries(node)) {
@@ -108,8 +105,14 @@ export const day_7 = () => {
     });
   };
 
+  function logMapElements(value, key) {
+    console.log(`parents[${key}] = ${value}`);
+  }
+
+  parents.forEach(logMapElements);
+  console.log("*************");
   console.log(`TODO: ${JSON.stringify(cleanCommands)}\n`);
-  //console.log("*************");
+  console.log("*************");
   //console.log(`TODO: ${JSON.stringify(toTree(cleanCommands))}\n`);
   console.log("DAY SEVEN - Part Two");
   console.log(`TODO: \n\n`);
