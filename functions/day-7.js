@@ -50,14 +50,13 @@ export const day_7 = () => {
   const commands = data.split("\n");
   let fileTree = new Node("dir", "root"); // Naive, assume only ever have "$ cd /" once, and this is hardcoded
   let currentPosition = fileTree;
-  let level = 0;
 
   commands.forEach((command) => {
     if (command.startsWith("$ cd ")) {
       const value = command.substring(5);
 
       if (value === "/") {
-        // Do nothing, handled when initite fileTree
+        // Do nothing, handled when initiate fileTree
         return;
       }
 
@@ -76,14 +75,12 @@ export const day_7 = () => {
       return;
     }
 
-    const regex = RegExp(`([0-9])*`, "g");
-    const fileSize = command.match(regex);
+    const regex = RegExp(`([0-9]+)`, "g");
+    const size = parseInt(command.match(regex));
     if (command.match(regex)) {
-      fileTree.addChild(
-        "dir",
-        command.substring(fileSize[0].length + 1),
-        fileSize[0]
-      );
+      const value = command.split(" ")[1]; // Filename is the second element eg [ '8033020', 'd.log' ]
+      const node = new Node("file", value, size);
+      currentPosition.addChild(node);
     }
   });
 
