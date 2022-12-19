@@ -30,7 +30,13 @@ class Node {
   }
 
   getChildrenSize() {
-    // TODO calculate sum of children
+    // No need to check node type since all nodes are initiated with size=0 unless it is type="file"
+    let sum = 0;
+
+    this.children.forEach((child) => {
+      sum = sum + child.size;
+    });
+    return sum;
   }
 
   toJSON() {
@@ -39,6 +45,7 @@ class Node {
       size: this.size,
       type: this.type,
       children: this.children,
+      childrenSize: this.getChildrenSize(), // Just to test function getChildrenSize() which is called when do JSON.stringify()
       // do not print out parent to avoid circular dependencies when console.log
     };
   }
@@ -84,10 +91,11 @@ export const day_7 = () => {
     }
   });
 
-  console.log("DAY SEVEN - Part One");
-
   console.log("*************");
   console.log(`TODO: ${JSON.stringify(fileTree)}\n`);
+  console.log("DAY SEVEN - Part One");
+
+  console.log(`getChildrenSize: ${fileTree.getChildrenSize()}`);
   console.log("DAY SEVEN - Part Two");
   console.log(`TODO: \n\n`);
 };
