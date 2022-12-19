@@ -91,11 +91,21 @@ export const day_7 = () => {
     }
   });
 
+  let sum = 0;
+  const sumDirectorySize = (tree) => {
+    if (tree.children.length == 0) {
+      return tree.parent;
+    }
+    if (tree.children.length !== 0) {
+      return (sum = sum + tree.getChildrenSize());
+    }
+  };
+
   console.log("*************");
   console.log(`TODO: ${JSON.stringify(fileTree)}\n`);
   console.log("DAY SEVEN - Part One");
 
-  console.log(`getChildrenSize: ${fileTree.getChildrenSize()}`);
+  console.log(`sumDirectorySize: ${sumDirectorySize(fileTree)}`);
   console.log("DAY SEVEN - Part Two");
   console.log(`TODO: \n\n`);
 };
