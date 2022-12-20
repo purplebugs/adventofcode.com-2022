@@ -93,7 +93,9 @@ class Node {
 }
 
 export const day_7 = () => {
-  const day_7 = "day-7.txt"; //  https://adventofcode.com/2022/day/7
+  const day_7 = "day-7-example.txt"; //  https://adventofcode.com/2022/day/7
+  //const day_7 = "day-7.txt"; //  https://adventofcode.com/2022/day/7
+
   const data = readFileSync(`./data/${day_7}`, "utf8");
   const commands = data.split("\n");
   let fileTree = new Node("dir", "root"); // Naive, assume only ever have "$ cd /" once, and this is hardcoded
