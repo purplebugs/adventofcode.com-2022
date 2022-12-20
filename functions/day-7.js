@@ -29,25 +29,24 @@ class Node {
     this.parent = node;
   }
 
-  getDirSize() {
+  getShallowSize() {
     // No need to check node type since all nodes are initiated with size=0 unless it is type="file"
     let sum = 0;
 
     this.children.forEach((child) => {
       sum = sum + child.size;
-      sum = sum + child.getDirSize();
     });
 
     return sum;
   }
 
-  getSumDeepSize() {
+  getDeepSize() {
+    // No need to check node type since all nodes are initiated with size=0 unless it is type="file"
     let sum = 0;
 
     this.children.forEach((child) => {
       sum = sum + child.size;
-      sum = sum + child.getDirSize();
-      sum = sum + child.getSumDeepSize();
+      sum = sum + child.getDeepSize();
     });
 
     return sum;
@@ -60,8 +59,8 @@ class Node {
       type: this.type,
       children: this.children,
       //this.parent, do not print out parent to avoid circular dependencies when console.log
-      getDirSize: this.getDirSize(), // Just to test function getChildrenSize() which is called when do JSON.stringify()
-      getSumDeepSize: this.getSumDeepSize(),
+      getShallowSize: this.getShallowSize(),
+      getDeepSize: this.getDeepSize(), // Just to test function getChildrenSize() which is called when do JSON.stringify()
     };
   }
 }
@@ -111,7 +110,6 @@ export const day_7 = () => {
   console.log(`TODO: ${JSON.stringify(fileTree)}\n`);
   console.log("DAY SEVEN - Part One");
 
-  console.log(`${fileTree.getSumDeepSize()}`);
   console.log("DAY SEVEN - Part Two");
   console.log(`TODO: \n\n`);
 };
