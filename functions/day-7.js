@@ -65,49 +65,82 @@ class Node {
   }
 }
 
+class Tree {
+  constructor() {
+    this.root;
+    this.directoryIndex = new Map();
+  }
+
+  cd(path) {
+    if ((path = "/")) {
+      return this.root;
+    }
+    return this.directoryIndex.get(path);
+  }
+
+  tokenize(data = "") {
+    const commands = data.split("\n");
+    this.root = new Node("dir", "root"); // Naive, assume only ever have "$ cd /" once, and this is hardcoded
+    let currentPosition = this.root;
+    let currentDirectoryPath = [];
+
+    commands.forEach((command) => {
+      if (command.startsWith("$ cd ")) {
+        const value = command.substring(5);
+
+        if (value === "/") {
+          // Do not create node, handled when initiate fileTree
+          return;
+        }
+
+        if (value !== "..") {
+          currentDirectoryPath.push(value);
+        }
+
+        if (value == "..") {
+          currentDirectoryPath.pop(value);
+        }
+
+        currentPosition = currentPosition.cd(value);
+        return;
+      }
+
+      if (command.startsWith("dir ")) {
+        const value = command.substring(4);
+        const node = new Node("dir", value);
+        node.addParent(currentPosition);
+        currentPosition.addChild(node);
+
+        const key = `${currentDirectoryPath.join("/")}/${value}`;
+        this.directoryIndex.set(key, node);
+        console.log(`key: ${key} - ${node.name}`);
+      }
+
+      if (command.startsWith("$ ls")) {
+        return;
+      }
+
+      const regex = RegExp(`([0-9]+)`, "g");
+      const size = parseInt(command.match(regex));
+      if (command.match(regex)) {
+        const value = command.split(" ")[1]; // Filename is the second element eg [ '8033020', 'd.log' ]
+        const node = new Node("file", value, size);
+        currentPosition.addChild(node);
+      }
+    });
+  }
+}
+
 export const day_7 = () => {
   const day_7 = "day-7-example.txt"; //  https://adventofcode.com/2022/day/7
   //const day_7 = "day-7.txt"; //  https://adventofcode.com/2022/day/7
 
   const data = readFileSync(`./data/${day_7}`, "utf8");
-  const commands = data.split("\n");
-  let fileTree = new Node("dir", "root"); // Naive, assume only ever have "$ cd /" once, and this is hardcoded
-  let currentPosition = fileTree;
 
-  commands.forEach((command) => {
-    if (command.startsWith("$ cd ")) {
-      const value = command.substring(5);
+  const fileTree = new Tree();
+  fileTree.tokenize(data);
 
-      if (value === "/") {
-        // Do nothing, handled when initiate fileTree
-        return;
-      }
-
-      currentPosition = currentPosition.cd(value);
-      return;
-    }
-
-    if (command.startsWith("dir ")) {
-      const value = command.substring(4);
-      const node = new Node("dir", value);
-      node.addParent(currentPosition);
-      currentPosition.addChild(node);
-    }
-
-    if (command.startsWith("$ ls")) {
-      return;
-    }
-
-    const regex = RegExp(`([0-9]+)`, "g");
-    const size = parseInt(command.match(regex));
-    if (command.match(regex)) {
-      const value = command.split(" ")[1]; // Filename is the second element eg [ '8033020', 'd.log' ]
-      const node = new Node("file", value, size);
-      currentPosition.addChild(node);
-    }
-  });
-
-  console.log(`TODO: ${JSON.stringify(fileTree)}\n`);
+  console.log(`TODO: ${JSON.stringify(fileTree.cd("/d"))}\n`);
   console.log("DAY SEVEN - Part One");
 
   console.log("DAY SEVEN - Part Two");
