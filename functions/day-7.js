@@ -111,10 +111,12 @@ class Tree {
         const node = new Node("dir", value);
         node.addParent(currentPosition);
         currentPosition.addChild(node);
-
-        const key = `${currentDirectoryPath.join("/")}/${value}`;
+        let key = `/${currentDirectoryPath.join("/")}/${value}`;
+        if (key.startsWith("//")) {
+          key = key.slice(1); // Hack to remove duplicate slash at start of path which happens sometimes
+        }
         this.directoryIndex.set(key, node);
-        console.log(`key: ${key} - ${node.name}`);
+        // console.log(`key: ${key} - ${node.name}`);
       }
 
       if (command.startsWith("$ ls")) {
@@ -141,7 +143,7 @@ export const day_7 = () => {
   const fileTree = new Tree();
   fileTree.tokenize(data);
 
-  //console.log(`TODO: ${JSON.stringify(fileTree.cd("a/e"))}\n`);
+  console.log(`TODO: ${JSON.stringify(fileTree.cd("/a/e"))}\n`);
   console.log("DAY SEVEN - Part One");
 
   console.log("DAY SEVEN - Part Two");
