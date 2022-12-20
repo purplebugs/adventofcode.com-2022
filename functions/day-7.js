@@ -29,13 +29,13 @@ class Node {
     this.parent = node;
   }
 
-  getDeepSize() {
+  getDirSize() {
     // No need to check node type since all nodes are initiated with size=0 unless it is type="file"
     let sum = 0;
 
     this.children.forEach((child) => {
       sum = sum + child.size;
-      sum = sum + child.getDeepSize();
+      sum = sum + child.getDirSize();
     });
 
     return sum;
@@ -46,7 +46,7 @@ class Node {
 
     this.children.forEach((child) => {
       sum = sum + child.size;
-      sum = sum + child.getDeepSize();
+      sum = sum + child.getDirSize();
       sum = sum + child.getSumDeepSize();
     });
 
@@ -60,7 +60,7 @@ class Node {
       type: this.type,
       children: this.children,
       //this.parent, do not print out parent to avoid circular dependencies when console.log
-      getDeepSize: this.getDeepSize(), // Just to test function getChildrenSize() which is called when do JSON.stringify()
+      getDirSize: this.getDirSize(), // Just to test function getChildrenSize() which is called when do JSON.stringify()
       getSumDeepSize: this.getSumDeepSize(),
     };
   }
