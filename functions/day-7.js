@@ -50,6 +50,18 @@ class Node {
     return sum;
   }
 
+  getSumDeepSize() {
+    let sum = 0;
+
+    this.children.forEach((child) => {
+      sum = sum + child.size;
+      sum = sum + child.getDeepSize();
+      sum = sum + child.getSumDeepSize();
+    });
+
+    return sum;
+  }
+
   toJSON() {
     return {
       name: this.name,
@@ -59,6 +71,7 @@ class Node {
       //this.parent, do not print out parent to avoid circular dependencies when console.log
       shallowSize: this.getShallowSize(), // Just to test function getChildrenSize() which is called when do JSON.stringify()
       getDeepSize: this.getDeepSize(),
+      getSumDeepSize: this.getSumDeepSize(),
     };
   }
 }
@@ -103,11 +116,11 @@ export const day_7 = () => {
     }
   });
 
-  console.log("*************");
+  //console.log("*************");
   console.log(`TODO: ${JSON.stringify(fileTree)}\n`);
   console.log("DAY SEVEN - Part One");
 
-  console.log(`sumDirectorySize: ${fileTree.getDeepSize()}`);
+  //console.log(`getSizeByLimit: ${fileTree.getSizeByLimit(100000)}`);
   console.log("DAY SEVEN - Part Two");
   console.log(`TODO: \n\n`);
 };
