@@ -29,17 +29,8 @@ class Node {
     this.parent = node;
   }
 
-  getShallowSize() {
-    // No need to check node type since all nodes are initiated with size=0 unless it is type="file"
-    let sum = 0;
-
-    this.children.forEach((child) => {
-      sum = sum + child.size;
-    });
-    return sum;
-  }
-
   getDeepSize() {
+    // No need to check node type since all nodes are initiated with size=0 unless it is type="file"
     let sum = 0;
 
     this.children.forEach((child) => {
@@ -62,22 +53,6 @@ class Node {
     return sum;
   }
 
-  getSumDeepSizeLimit(limit) {
-    let result = 0;
-
-    this.children.forEach((child) => {
-      let size = child.getSumDeepSize();
-      if (size <= limit && size > 0) {
-        result = size;
-      }
-
-      if (size > limit) {
-        child.getSumDeepSizeLimit(limit);
-      }
-    });
-    return result;
-  }
-
   toJSON() {
     return {
       name: this.name,
@@ -85,8 +60,7 @@ class Node {
       type: this.type,
       children: this.children,
       //this.parent, do not print out parent to avoid circular dependencies when console.log
-      shallowSize: this.getShallowSize(), // Just to test function getChildrenSize() which is called when do JSON.stringify()
-      getDeepSize: this.getDeepSize(),
+      getDeepSize: this.getDeepSize(), // Just to test function getChildrenSize() which is called when do JSON.stringify()
       getSumDeepSize: this.getSumDeepSize(),
     };
   }
@@ -134,14 +108,10 @@ export const day_7 = () => {
     }
   });
 
-  //console.log(`TODO: ${JSON.stringify(fileTree)}\n`);
+  console.log(`TODO: ${JSON.stringify(fileTree)}\n`);
   console.log("DAY SEVEN - Part One");
 
-  console.log(
-    `Directories with a total size of at most 100000: ${fileTree.getSumDeepSizeLimit(
-      100000
-    )}`
-  );
+  console.log(`${fileTree.getSumDeepSize()}`);
   console.log("DAY SEVEN - Part Two");
   console.log(`TODO: \n\n`);
 };
