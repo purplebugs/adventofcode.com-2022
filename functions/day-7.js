@@ -62,6 +62,22 @@ class Node {
     return sum;
   }
 
+  getSumDeepSizeLimit(limit) {
+    let result = 0;
+
+    this.children.forEach((child) => {
+      let size = child.getSumDeepSize();
+      if (size <= limit && size > 0) {
+        result = size;
+      }
+
+      if (size > limit) {
+        child.getSumDeepSizeLimit(limit);
+      }
+    });
+    return result;
+  }
+
   toJSON() {
     return {
       name: this.name,
@@ -116,11 +132,14 @@ export const day_7 = () => {
     }
   });
 
-  //console.log("*************");
-  console.log(`TODO: ${JSON.stringify(fileTree)}\n`);
+  //console.log(`TODO: ${JSON.stringify(fileTree)}\n`);
   console.log("DAY SEVEN - Part One");
 
-  //console.log(`getSizeByLimit: ${fileTree.getSizeByLimit(100000)}`);
+  console.log(
+    `Directories with a total size of at most 100000: ${fileTree.getSumDeepSizeLimit(
+      100000
+    )}`
+  );
   console.log("DAY SEVEN - Part Two");
   console.log(`TODO: \n\n`);
 };
