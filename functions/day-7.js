@@ -72,9 +72,10 @@ class Tree {
   }
 
   cd(path) {
-    if ((path = "/")) {
+    if (path === "/") {
       return this.root;
     }
+
     return this.directoryIndex.get(path);
   }
 
@@ -140,7 +141,7 @@ export const day_7 = () => {
   const fileTree = new Tree();
   fileTree.tokenize(data);
 
-  console.log(`TODO: ${JSON.stringify(fileTree.cd("/d"))}\n`);
+  //console.log(`TODO: ${JSON.stringify(fileTree.cd("a/e"))}\n`);
   console.log("DAY SEVEN - Part One");
 
   console.log("DAY SEVEN - Part Two");
