@@ -110,17 +110,16 @@ export const day_3 = () => {
     });
   }
 
-  console.log("DAY THREE - Part One");
+  console.log("DAY THREE\n");
 
   console.log(
-    `Sum of rugsack priorities: ${rugsacks
+    `1: ${rugsacks
       .map((rugsack) => rugsack.priority)
-      .reduce((accumulator, currentValue) => accumulator + currentValue)}\n`
+      .reduce((accumulator, currentValue) => accumulator + currentValue)}`
   );
 
-  console.log("DAY THREE - Part Two");
   console.log(
-    `Sum of item type priorities: ${elfGroups
+    `2: ${elfGroups
       .map((group) => group.priority)
       .reduce((accumulator, currentValue) => accumulator + currentValue)}\n\n`
   );

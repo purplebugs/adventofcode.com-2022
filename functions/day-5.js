@@ -161,8 +161,7 @@ export const day_5 = () => {
   }
   //console.log(`${JSON.stringify(cargo)}\n`);
 
-  console.log("DAY FIVE - Part One");
-  console.log(`Crates on top of each stack: ${topsPartOne.join("")}\n`);
-  console.log("DAY FIVE - Part Two");
-  console.log(`Crates on top of each stack: ${topsPartTwo.join("")}\n\n`);
+  console.log("DAY FIVE\n");
+  console.log(`1: ${topsPartOne.join("")}`);
+  console.log(`2: ${topsPartTwo.join("")}\n\n`);
 };

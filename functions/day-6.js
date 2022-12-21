@@ -26,12 +26,7 @@ export const day_6 = () => {
     }
   };
 
-  console.log("DAY SIX - Part One");
-  console.log(
-    `Chars processed: ${findAdjoiningUniqueCharsEndPosition(signals, 4)}\n`
-  );
-  console.log("DAY SIX - Part Two");
-  console.log(
-    `Chars processed: ${findAdjoiningUniqueCharsEndPosition(signals, 14)}\n\n`
-  );
+  console.log("DAY SIX\n");
+  console.log(`1: ${findAdjoiningUniqueCharsEndPosition(signals, 4)}`);
+  console.log(`2: ${findAdjoiningUniqueCharsEndPosition(signals, 14)}\n\n`);
 };

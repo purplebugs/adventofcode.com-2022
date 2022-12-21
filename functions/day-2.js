@@ -69,18 +69,17 @@ export const day_2 = () => {
     return scoreWinLoseDraw_2(round[0][0], round[0][1]); // ["PR"] -> scoreWinLoseDraw_2("P","R")
   });
 
-  console.log("DAY TWO - Part One");
+  console.log("DAY TWO\n");
   console.log(
-    `Sum of scores: ${JSON.stringify(
+    `1: ${JSON.stringify(
       arrayOfScores_part_1.reduce(
         (accumulator, currentValue) => accumulator + currentValue
       )
-    )}\n`
+    )}`
   );
 
-  console.log("DAY TWO - Part Two");
   console.log(
-    `Sum of scores: ${JSON.stringify(
+    `2: ${JSON.stringify(
       arrayOfScores_part_2.reduce(
         (accumulator, currentValue) => accumulator + currentValue
       )

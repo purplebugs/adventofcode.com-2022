@@ -31,16 +31,11 @@ export const day_1 = () => {
     return numberArray.sort(compareNumbers);
   };
 
-  console.log("DAY ONE - Part One");
+  console.log("DAY ONE\n");
 
   const caloriesPerElfArray = generateCaloriesPerElfArray(arrayOfText);
-  console.log(
-    `Total calories of elf with the most calories: ${Math.max(
-      ...caloriesPerElfArray
-    )}\n`
-  );
+  console.log(`1: ${Math.max(...caloriesPerElfArray)}`);
 
-  console.log("DAY ONE - Part Two");
   const caloriesPerElfArraySorted =
     sortCaloriesPerElfArray(caloriesPerElfArray);
   const sumTopThreeCaloriesPerElf = (numberArray) => {
@@ -48,9 +43,5 @@ export const day_1 = () => {
     result = numberArray[0] + numberArray[1] + numberArray[2];
     return result;
   };
-  console.log(
-    `Total calories of top three elves with the most calories: ${sumTopThreeCaloriesPerElf(
-      caloriesPerElfArraySorted
-    )}\n\n`
-  );
+  console.log(`2: ${sumTopThreeCaloriesPerElf(caloriesPerElfArraySorted)}\n\n`);
 };
