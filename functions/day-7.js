@@ -133,20 +133,32 @@ class Tree {
       }
     });
   }
+
+  sumOfDirectories(limit = "100000") {
+    let sum = 0;
+
+    this.directoryIndex.forEach((directory) => {
+      if (directory.getDeepSize() <= limit) {
+        sum = sum + directory.getDeepSize();
+      }
+    });
+
+    return sum;
+  }
 }
 
 export const day_7 = () => {
-  const day_7 = "day-7-example.txt"; //  https://adventofcode.com/2022/day/7
-  //const day_7 = "day-7.txt"; //  https://adventofcode.com/2022/day/7
+  //const day_7 = "day-7-example.txt"; //  https://adventofcode.com/2022/day/7
+  const day_7 = "day-7.txt"; //  https://adventofcode.com/2022/day/7
 
   const data = readFileSync(`./data/${day_7}`, "utf8");
 
   const fileTree = new Tree();
   fileTree.tokenize(data);
+  //console.log(`TODO: ${JSON.stringify(fileTree)}\n`);
+  //console.log(`TODO: ${JSON.stringify(fileTree.cd("/a/e"))}\n`);
 
-  console.log(`TODO: ${JSON.stringify(fileTree.cd("/a/e"))}\n`);
-  console.log("DAY SEVEN - Part One");
-
-  console.log("DAY SEVEN - Part Two");
-  console.log(`TODO: \n\n`);
+  console.log("DAY SEVEN\n");
+  console.log(`1: ${JSON.stringify(fileTree.sumOfDirectories())}`);
+  console.log(`2: \n\n`);
 };
