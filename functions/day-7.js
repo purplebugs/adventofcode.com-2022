@@ -192,16 +192,7 @@ export const day_7 = () => {
   const fileTree = new Tree();
   fileTree.tokenize(data);
 
-  // console.log(fileTree.totalSpaceNotUsed());
-  // console.log(fileTree.totalSpaceToFreeUp());
-  // console.log(`${JSON.stringify(fileTree.directoryIndexBySize())}`);
-  // console.log(`${JSON.stringify(fileTree.directorySizeToFreeUpSpace())}`);
-
-  // console.log(`TODO: ${JSON.stringify(fileTree)}\n`);
-  // console.log(`TODO: ${JSON.stringify(fileTree.cd("/").getDeepSize())}\n`);
-  // console.log(`TODO: ${JSON.stringify(fileTree.cd("/a/e"))}\n`);
-
   console.log("DAY SEVEN\n");
   console.log(`1: ${fileTree.sumOfDirectories(100000)}`);
-  console.log(`2: ${fileTree.directorySizeToFreeUpSpace()}\n\n`); // Day 2 wrong guess: 29757629 too high
+  console.log(`2: ${fileTree.directorySizeToFreeUpSpace()}\n\n`);
 };
