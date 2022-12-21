@@ -147,6 +147,22 @@ class Tree {
     return sum;
   }
 
+  directoryIndexBySize() {
+    const sizesAscendingOrder = [];
+
+    for (const entry of this.directoryIndex) {
+      sizesAscendingOrder.push(entry[1].getDeepSize());
+    }
+
+    sizesAscendingOrder.sort((a, b) => {
+      {
+        return a - b;
+      }
+    });
+
+    return sizesAscendingOrder;
+  }
+
   totalSpaceAvailable() {
     return this.totalSpace - this.root.getDeepSize();
   }
@@ -162,6 +178,7 @@ export const day_7 = () => {
   fileTree.tokenize(data);
 
   console.log(fileTree.totalSpaceAvailable());
+  console.log(`HELLO ${JSON.stringify(fileTree.directoryIndexBySize())}`);
   // console.log(`TODO: ${JSON.stringify(fileTree)}\n`);
   // console.log(`TODO: ${JSON.stringify(fileTree.cd("/").getDeepSize())}\n`);
   // console.log(`TODO: ${JSON.stringify(fileTree.cd("/a/e"))}\n`);
