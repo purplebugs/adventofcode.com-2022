@@ -69,6 +69,7 @@ class Tree {
   constructor() {
     this.root;
     this.directoryIndex = new Map();
+    this.totalSpace = 70000000;
   }
 
   cd(path) {
@@ -145,16 +146,22 @@ class Tree {
 
     return sum;
   }
+
+  totalSpaceAvailable() {
+    return this.totalSpace - this.root.getDeepSize();
+  }
 }
 
 export const day_7 = () => {
-  //const day_7 = "day-7-example.txt"; //  https://adventofcode.com/2022/day/7
-  const day_7 = "day-7.txt"; //  https://adventofcode.com/2022/day/7
+  const day_7 = "day-7-example.txt"; //  https://adventofcode.com/2022/day/7
+  //const day_7 = "day-7.txt"; //  https://adventofcode.com/2022/day/7
 
   const data = readFileSync(`./data/${day_7}`, "utf8");
 
   const fileTree = new Tree();
   fileTree.tokenize(data);
+
+  console.log(fileTree.totalSpaceAvailable());
   // console.log(`TODO: ${JSON.stringify(fileTree)}\n`);
   // console.log(`TODO: ${JSON.stringify(fileTree.cd("/").getDeepSize())}\n`);
   // console.log(`TODO: ${JSON.stringify(fileTree.cd("/a/e"))}\n`);
