@@ -70,6 +70,7 @@ class Tree {
     this.root;
     this.directoryIndex = new Map();
     this.totalSpace = 70000000;
+    this.totalSpaceNeeded = 30000000;
   }
 
   cd(path) {
@@ -163,8 +164,23 @@ class Tree {
     return sizesAscendingOrder;
   }
 
-  totalSpaceAvailable() {
+  totalSpaceNotUsed() {
     return this.totalSpace - this.root.getDeepSize();
+  }
+
+  totalSpaceToFreeUp() {
+    return this.totalSpaceNeeded - this.totalSpaceNotUsed();
+  }
+
+  directorySizeToFreeUpSpace() {
+    let size = 0;
+    this.directoryIndexBySize().forEach((dirSize) => {
+      if (dirSize >= this.totalSpaceToFreeUp()) {
+        size = dirSize;
+      }
+    });
+
+    return size;
   }
 }
 
@@ -177,13 +193,16 @@ export const day_7 = () => {
   const fileTree = new Tree();
   fileTree.tokenize(data);
 
-  console.log(fileTree.totalSpaceAvailable());
-  console.log(`HELLO ${JSON.stringify(fileTree.directoryIndexBySize())}`);
+  // console.log(fileTree.totalSpaceNotUsed());
+  // console.log(fileTree.totalSpaceToFreeUp());
+  // console.log(`${JSON.stringify(fileTree.directoryIndexBySize())}`);
+  // console.log(`${JSON.stringify(fileTree.directorySizeToFreeUpSpace())}`);
+
   // console.log(`TODO: ${JSON.stringify(fileTree)}\n`);
   // console.log(`TODO: ${JSON.stringify(fileTree.cd("/").getDeepSize())}\n`);
   // console.log(`TODO: ${JSON.stringify(fileTree.cd("/a/e"))}\n`);
 
   console.log("DAY SEVEN\n");
-  console.log(`1: ${JSON.stringify(fileTree.sumOfDirectories(100000))}`);
-  console.log(`2: \n\n`);
+  console.log(`1: ${fileTree.sumOfDirectories(100000)}`);
+  console.log(`2: ${fileTree.directorySizeToFreeUpSpace()}\n\n`);
 };
