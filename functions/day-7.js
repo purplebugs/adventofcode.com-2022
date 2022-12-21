@@ -174,19 +174,18 @@ class Tree {
 
   directorySizeToFreeUpSpace() {
     let size = 0;
-    this.directoryIndexBySize().forEach((dirSize) => {
-      if (dirSize >= this.totalSpaceToFreeUp()) {
-        size = dirSize;
-      }
-    });
+
+    size = this.directoryIndexBySize().find(
+      (dirSize) => dirSize >= this.totalSpaceToFreeUp()
+    );
 
     return size;
   }
 }
 
 export const day_7 = () => {
-  const day_7 = "day-7-example.txt"; //  https://adventofcode.com/2022/day/7
-  //const day_7 = "day-7.txt"; //  https://adventofcode.com/2022/day/7
+  // const day_7 = "day-7-example.txt"; //  https://adventofcode.com/2022/day/7
+  const day_7 = "day-7.txt"; //  https://adventofcode.com/2022/day/7
 
   const data = readFileSync(`./data/${day_7}`, "utf8");
 
@@ -204,5 +203,5 @@ export const day_7 = () => {
 
   console.log("DAY SEVEN\n");
   console.log(`1: ${fileTree.sumOfDirectories(100000)}`);
-  console.log(`2: ${fileTree.directorySizeToFreeUpSpace()}\n\n`);
+  console.log(`2: ${fileTree.directorySizeToFreeUpSpace()}\n\n`); // Day 2 wrong guess: 29757629 too high
 };
