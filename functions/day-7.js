@@ -117,6 +117,7 @@ class Tree {
         }
         this.directoryIndex.set(key, node);
         // console.log(`key: ${key} - ${node.name}`);
+        // console.log(this.directoryIndex);
       }
 
       if (command.startsWith("$ ls")) {
