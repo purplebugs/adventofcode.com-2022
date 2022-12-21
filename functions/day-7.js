@@ -134,7 +134,7 @@ class Tree {
     });
   }
 
-  sumOfDirectories(limit = "100000") {
+  sumOfDirectories(limit) {
     let sum = 0;
 
     this.directoryIndex.forEach((directory) => {
@@ -159,6 +159,6 @@ export const day_7 = () => {
   //console.log(`TODO: ${JSON.stringify(fileTree.cd("/a/e"))}\n`);
 
   console.log("DAY SEVEN\n");
-  console.log(`1: ${JSON.stringify(fileTree.sumOfDirectories())}`);
+  console.log(`1: ${JSON.stringify(fileTree.sumOfDirectories(100000))}`);
   console.log(`2: \n\n`);
 };
