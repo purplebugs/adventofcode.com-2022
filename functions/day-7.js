@@ -155,8 +155,9 @@ export const day_7 = () => {
 
   const fileTree = new Tree();
   fileTree.tokenize(data);
-  //console.log(`TODO: ${JSON.stringify(fileTree)}\n`);
-  //console.log(`TODO: ${JSON.stringify(fileTree.cd("/a/e"))}\n`);
+  // console.log(`TODO: ${JSON.stringify(fileTree)}\n`);
+  // console.log(`TODO: ${JSON.stringify(fileTree.cd("/").getDeepSize())}\n`);
+  // console.log(`TODO: ${JSON.stringify(fileTree.cd("/a/e"))}\n`);
 
   console.log("DAY SEVEN\n");
   console.log(`1: ${JSON.stringify(fileTree.sumOfDirectories(100000))}`);
