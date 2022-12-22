@@ -1,22 +1,37 @@
 import { readFileSync } from "fs";
 
 class Matrix {
-  constructor() {
-    this.content = [];
+  constructor(content = []) {
+    this.content = content;
+    this.edgeTreesCount = 0;
+  }
+
+  getRowsCount() {
+    let count = 0;
+    count = this.content.length;
+    return count;
+  }
+
+  getColumnsCount() {
+    let count = 0;
+    count = this.content[0].length;
+    return count;
+  }
+
+  getEdgeCount() {
+    return;
   }
 
   create(data = "") {
-    let numberArray = [];
     const numberLines = data.split("\n");
 
-    numberArray = numberLines.map((line) => {
+    // Put array in array to make 2D array
+    this.content = numberLines.map((line) => {
       const toInt = line.split("");
       const toArrayOfInt = [];
       toInt.forEach((char) => toArrayOfInt.push(+char));
       return toArrayOfInt;
     });
-
-    this.content.push(numberArray); // Put array in array to make 2D array
   }
 }
 
@@ -29,6 +44,8 @@ export const day_8 = () => {
   matrix.create(data);
 
   console.log("DAY EIGHT\n");
-  console.log(`${JSON.stringify(matrix.content)}`);
+  console.log(matrix.content);
+  console.log(matrix.getRowsCount());
+  console.log(matrix.getColumnsCount());
   console.log(`2: TODO \n\n`);
 };
