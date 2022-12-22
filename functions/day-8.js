@@ -41,6 +41,31 @@ class Matrix {
     return !found ? true : false;
   }
 
+  visibleAbove(x, y) {
+    const number = this.content[x][y];
+
+    let column = this.content.map((row) => {
+      return row[y];
+    });
+    column.splice(x);
+    const found = column.find((neighbour) => neighbour >= number);
+    return !found ? true : false;
+  }
+
+  // TODO
+  /*   visibleBelow(x, y) {
+    const number = this.content[x][y];
+    console.log(number);
+    let column = this.content.map((row) => {
+      return row[y];
+    });
+    console.log(column);
+    column.splice(x);
+    console.log(column);
+    const found = column.find((neighbour) => neighbour >= number);
+    return !found ? true : false;
+  } */
+
   create(data = "") {
     const numberLines = data.split("\n");
 
@@ -64,6 +89,6 @@ export const day_8 = () => {
 
   console.log("DAY EIGHT\n");
   console.log(matrix.content);
-  console.log(matrix.visibleOnLeft(3, 2));
+  console.log(matrix.visibleAbove(3, 0));
   console.log(`2: TODO \n\n`);
 };
