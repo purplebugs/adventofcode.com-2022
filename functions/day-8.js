@@ -25,15 +25,14 @@ class Matrix {
     return count;
   }
 
-  checkRight(x, y) {
+  visibleOnRight(x, y) {
     const number = this.content[x][y];
-    let isVisible = false;
+    console.log(number);
     let row = this.content[x];
     row.splice(0, y + 1);
-    row.find((neighbour) => {
-      number < neighbour;
-    });
-    return isVisible;
+    const found = row.find((neighbour) => neighbour >= number);
+    console.log(found);
+    return !found ? true : false;
   }
 
   create(data = "") {
@@ -59,6 +58,6 @@ export const day_8 = () => {
 
   console.log("DAY EIGHT\n");
   console.log(matrix.content);
-  console.log(matrix.checkRight(1, 0));
+  console.log(matrix.visibleOnRight(2, 3));
   console.log(`2: TODO \n\n`);
 };
