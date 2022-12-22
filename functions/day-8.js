@@ -27,11 +27,17 @@ class Matrix {
 
   visibleOnRight(x, y) {
     const number = this.content[x][y];
-    console.log(number);
     let row = this.content[x];
     row.splice(0, y + 1);
     const found = row.find((neighbour) => neighbour >= number);
-    console.log(found);
+    return !found ? true : false;
+  }
+
+  visibleOnLeft(x, y) {
+    const number = this.content[x][y];
+    let row = this.content[x];
+    row.splice(y);
+    const found = row.find((neighbour) => neighbour >= number);
     return !found ? true : false;
   }
 
@@ -58,6 +64,6 @@ export const day_8 = () => {
 
   console.log("DAY EIGHT\n");
   console.log(matrix.content);
-  console.log(matrix.visibleOnRight(2, 3));
+  console.log(matrix.visibleOnLeft(3, 2));
   console.log(`2: TODO \n\n`);
 };
