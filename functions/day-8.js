@@ -25,7 +25,7 @@ class Matrix {
     return count;
   }
 
-  visibleOnRight(x, y) {
+  isVisibleOnRight(x, y) {
     const number = this.content[x][y];
     let row = this.content[x];
     row.splice(0, y + 1);
@@ -33,7 +33,7 @@ class Matrix {
     return !found ? true : false;
   }
 
-  visibleOnLeft(x, y) {
+  isVisibleOnLeft(x, y) {
     const number = this.content[x][y];
     let row = this.content[x];
     row.splice(y);
@@ -41,7 +41,7 @@ class Matrix {
     return !found ? true : false;
   }
 
-  visibleAbove(x, y) {
+  isVisibleAbove(x, y) {
     const number = this.content[x][y];
 
     let column = this.content.map((row) => {
@@ -52,19 +52,15 @@ class Matrix {
     return !found ? true : false;
   }
 
-  // TODO
-  /*   visibleBelow(x, y) {
+  isVisibleBelow(x, y) {
     const number = this.content[x][y];
-    console.log(number);
     let column = this.content.map((row) => {
       return row[y];
     });
-    console.log(column);
-    column.splice(x);
-    console.log(column);
+    column.splice(0, x + 1);
     const found = column.find((neighbour) => neighbour >= number);
     return !found ? true : false;
-  } */
+  }
 
   create(data = "") {
     const numberLines = data.split("\n");
@@ -89,6 +85,6 @@ export const day_8 = () => {
 
   console.log("DAY EIGHT\n");
   console.log(matrix.content);
-  console.log(matrix.visibleAbove(3, 0));
+  console.log(matrix.isVisibleBelow(0, 0));
   console.log(`2: TODO \n\n`);
 };
