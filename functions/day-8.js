@@ -3,23 +3,26 @@ import { readFileSync } from "fs";
 class Matrix {
   constructor(content = []) {
     this.content = content;
-    this.edgeTreesCount = 0;
   }
 
-  getRowsCount() {
-    let count = 0;
-    count = this.content.length;
-    return count;
-  }
-
-  getColumnsCount() {
+  getWidth() {
     let count = 0;
     count = this.content[0].length;
     return count;
   }
 
+  getLength() {
+    let count = 0;
+    count = this.content.length;
+    return count;
+  }
+
   getEdgeCount() {
-    return;
+    let count = 0;
+    count = count + this.getWidth() * 2; // top and bottom rows - width
+    count = count + this.getLength() * 2; // left and right column - length
+    count = count - 4; // minus row corners already counted
+    return count;
   }
 
   create(data = "") {
@@ -45,7 +48,8 @@ export const day_8 = () => {
 
   console.log("DAY EIGHT\n");
   console.log(matrix.content);
-  console.log(matrix.getRowsCount());
-  console.log(matrix.getColumnsCount());
+  console.log(matrix.getWidth());
+  console.log(matrix.getLength());
+  console.log(matrix.getEdgeCount());
   console.log(`2: TODO \n\n`);
 };
