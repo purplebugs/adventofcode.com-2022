@@ -25,6 +25,17 @@ class Matrix {
     return count;
   }
 
+  checkRight(x, y) {
+    const number = this.content[x][y];
+    let isVisible = false;
+    let row = this.content[x];
+    row.splice(0, y + 1);
+    row.find((neighbour) => {
+      number < neighbour;
+    });
+    return isVisible;
+  }
+
   create(data = "") {
     const numberLines = data.split("\n");
 
@@ -48,8 +59,6 @@ export const day_8 = () => {
 
   console.log("DAY EIGHT\n");
   console.log(matrix.content);
-  console.log(matrix.getWidth());
-  console.log(matrix.getLength());
-  console.log(matrix.getEdgeCount());
+  console.log(matrix.checkRight(1, 0));
   console.log(`2: TODO \n\n`);
 };
