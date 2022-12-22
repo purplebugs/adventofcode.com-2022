@@ -27,27 +27,24 @@ class Matrix {
 
   isVisibleOnRight(x, y) {
     const number = this.content[x][y];
-    let row = this.content[x];
-    row.splice(0, y + 1);
+    const row = this.content[x].slice(y + 1);
     const found = row.find((neighbour) => neighbour >= number);
     return !found ? true : false;
   }
 
   isVisibleOnLeft(x, y) {
     const number = this.content[x][y];
-    let row = this.content[x];
-    row.splice(y);
+    const row = this.content[x].slice(0, y);
     const found = row.find((neighbour) => neighbour >= number);
     return !found ? true : false;
   }
 
   isVisibleAbove(x, y) {
     const number = this.content[x][y];
-
     let column = this.content.map((row) => {
       return row[y];
     });
-    column.splice(x);
+    column = column.slice(0, x);
     const found = column.find((neighbour) => neighbour >= number);
     return !found ? true : false;
   }
@@ -57,9 +54,20 @@ class Matrix {
     let column = this.content.map((row) => {
       return row[y];
     });
-    column.splice(0, x + 1);
+    column = column.slice(x + 1);
     const found = column.find((neighbour) => neighbour >= number);
     return !found ? true : false;
+  }
+
+  isVisible(x, y) {
+    console.log(`${x},${y}: ${this.content[x][y]}`);
+
+    return (
+      this.isVisibleOnRight(x, y) ||
+      this.isVisibleOnLeft(x, y) ||
+      this.isVisibleAbove(x, y) ||
+      this.isVisibleBelow(x, y)
+    );
   }
 
   create(data = "") {
@@ -85,6 +93,6 @@ export const day_8 = () => {
 
   console.log("DAY EIGHT\n");
   console.log(matrix.content);
-  console.log(matrix.isVisibleBelow(0, 0));
-  console.log(`2: TODO \n\n`);
+  console.log("isVisible", matrix.isVisible(3, 3));
+  //console.log(`2: TODO \n\n`);
 };
