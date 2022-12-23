@@ -65,7 +65,6 @@ class Matrix {
     const numberLines = data.split("\n");
 
     // Put array in array to make 2D array
-
     let x = 0;
     this.matrix = numberLines.map((line) => {
       console.log(`line: ${line}`);
@@ -75,11 +74,6 @@ class Matrix {
       toInt.forEach((char) => {
         const item = new Point(x, y, +char);
         toArrayOfInt.push(item);
-
-        // console.log(`${x},${y}: ${+char}`);
-        // TODO add width, height property directly on matrix
-
-        // console.log(JSON.stringify(item));
         y++;
       });
       x++;
@@ -97,7 +91,6 @@ export const day_8 = () => {
   matrix.create(data);
 
   console.log("DAY EIGHT\n");
-  //console.log(matrix.content);
   // console.log(JSON.stringify(matrix.matrix, null, 2));
   console.log("isVisible", matrix.isVisible(4, 4));
   //console.log(`2: TODO \n\n`);
