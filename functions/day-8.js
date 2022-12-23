@@ -91,7 +91,7 @@ class Matrix {
 }
 
 export const day_8 = () => {
-  // const day_8 = "day-8-example.txt"; //  https://adventofcode.com/2022/day/8
+  //const day_8 = "day-8-example.txt"; //  https://adventofcode.com/2022/day/8
   const day_8 = "day-8.txt"; //  https://adventofcode.com/2022/day/8
 
   const data = readFileSync(`./data/${day_8}`, "utf8");
@@ -100,6 +100,6 @@ export const day_8 = () => {
 
   console.log("DAY EIGHT\n");
   // console.log(JSON.stringify(matrix.matrix, null, 2));
-  console.log(matrix.count());
-  //console.log(`2: TODO \n\n`);
+  console.log(`1: ${matrix.count()}`);
+  console.log(`2: TODO \n\n`);
 };
