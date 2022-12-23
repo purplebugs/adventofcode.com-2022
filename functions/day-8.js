@@ -1,72 +1,63 @@
 import { readFileSync } from "fs";
 
+class Point {
+  constructor(x = 0, y = 0, height = 0) {
+    this.x = x;
+    this.y = y;
+    this.height = height;
+  }
+
+  toJSON() {
+    return this.height;
+  }
+}
+
 class Matrix {
-  constructor(content = []) {
-    this.content = content;
+  constructor(matrix = []) {
+    this.matrix = matrix;
   }
 
-  getWidth() {
-    let count = 0;
-    count = this.content[0].length;
-    return count;
-  }
-
-  getLength() {
-    let count = 0;
-    count = this.content.length;
-    return count;
-  }
-
-  getEdgeCount() {
-    let count = 0;
-    count = count + this.getWidth() * 2; // top and bottom rows - width
-    count = count + this.getLength() * 2; // left and right column - length
-    count = count - 4; // minus row corners already counted
-    return count;
-  }
-
-  isVisibleOnRight(x, y) {
-    const number = this.content[x][y];
-    const row = this.content[x].slice(y + 1);
-    const found = row.find((neighbour) => neighbour >= number);
+  isVisibleOnRight(point) {
+    const row = this.matrix[point.x].slice(point.y + 1);
+    const found = row.find((neighbour) => neighbour.height >= point.height);
     return !found ? true : false;
   }
 
-  isVisibleOnLeft(x, y) {
-    const number = this.content[x][y];
-    const row = this.content[x].slice(0, y);
-    const found = row.find((neighbour) => neighbour >= number);
+  isVisibleOnLeft(point) {
+    const row = this.matrix[point.x].slice(0, point.y);
+    const found = row.find((neighbour) => neighbour.height >= point.height);
     return !found ? true : false;
   }
 
-  isVisibleAbove(x, y) {
-    const number = this.content[x][y];
-    let column = this.content.map((row) => {
-      return row[y];
+  isVisibleAbove(point) {
+    let column = this.matrix.map((row) => {
+      return row[point.y];
     });
-    column = column.slice(0, x);
-    const found = column.find((neighbour) => neighbour >= number);
+    column = column.slice(0, point.x);
+    const found = column.find((neighbour) => neighbour.height >= point.height);
     return !found ? true : false;
   }
 
-  isVisibleBelow(x, y) {
-    const number = this.content[x][y];
-    let column = this.content.map((row) => {
-      return row[y];
+  isVisibleBelow(point) {
+    let column = this.matrix.map((row) => {
+      return row[point.y];
     });
-    column = column.slice(x + 1);
-    const found = column.find((neighbour) => neighbour >= number);
+    column = column.slice(point.x + 1);
+    const found = column.find((neighbour) => neighbour.height >= point.height);
     return !found ? true : false;
   }
 
   isVisible(x, y) {
-    console.log(`${x},${y}: ${this.content[x][y]}`);
+    //console.log(`${x},${y}: ${this.matrix[x][y]}`);
+
+    const point = this.matrix[x][y];
+    console.log("point", point);
 
     return (
-      this.isVisibleOnRight(x, y) ||
-      this.isVisibleOnLeft(x, y) ||
-      this.isVisibleAbove(x, y) ||
-      this.isVisibleBelow(x, y)
+      this.isVisibleOnRight(point) ||
+      this.isVisibleOnLeft(point) ||
+      this.isVisibleAbove(point) ||
+      this.isVisibleBelow(point)
     );
   }
 
@@ -74,10 +65,24 @@ class Matrix {
     const numberLines = data.split("\n");
 
     // Put array in array to make 2D array
-    this.content = numberLines.map((line) => {
+
+    let x = 0;
+    this.matrix = numberLines.map((line) => {
+      console.log(`line: ${line}`);
       const toInt = line.split("");
       const toArrayOfInt = [];
-      toInt.forEach((char) => toArrayOfInt.push(+char));
+      let y = 0;
+      toInt.forEach((char) => {
+        const item = new Point(x, y, +char);
+        toArrayOfInt.push(item);
+
+        // console.log(`${x},${y}: ${+char}`);
+        // TODO add width, height property directly on matrix
+
+        // console.log(JSON.stringify(item));
+        y++;
+      });
+      x++;
       return toArrayOfInt;
     });
   }
@@ -92,7 +97,8 @@ export const day_8 = () => {
   matrix.create(data);
 
   console.log("DAY EIGHT\n");
-  console.log(matrix.content);
-  console.log("isVisible", matrix.isVisible(3, 3));
+  //console.log(matrix.content);
+  // console.log(JSON.stringify(matrix.matrix, null, 2));
+  console.log("isVisible", matrix.isVisible(4, 4));
   //console.log(`2: TODO \n\n`);
 };
