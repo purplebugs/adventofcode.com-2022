@@ -22,46 +22,50 @@ class Matrix {
 
     // Put array in array to make 2D array
     let x = 0;
+    let y = 0;
     this.matrix = numberLines.map((line) => {
       const toInt = line.split("");
       const toArrayOfInt = [];
-      let y = 0;
+
       toInt.forEach((char) => {
         const item = new Point(x, y, +char);
         toArrayOfInt.push(item);
-        y++;
+        //console.log("item", item);
+        x++;
       });
-      x++;
+      y++;
+      x = 0;
       return toArrayOfInt;
     });
   }
 
   isVisibleOnRight(point) {
-    const row = this.matrix[point.x].slice(point.y + 1);
+    const row = this.matrix[point.y].slice(point.x + 1);
     const found = row.find((neighbour) => neighbour.height >= point.height);
     return !found ? true : false;
   }
 
   isVisibleOnLeft(point) {
-    const row = this.matrix[point.x].slice(0, point.y);
+    const row = this.matrix[point.y].slice(0, point.x);
     const found = row.find((neighbour) => neighbour.height >= point.height);
     return !found ? true : false;
   }
 
   isVisibleAbove(point) {
     let column = this.matrix.map((row) => {
-      return row[point.y];
+      return row[point.x];
     });
-    column = column.slice(0, point.x);
+
+    column = column.slice(0, point.y);
     const found = column.find((neighbour) => neighbour.height >= point.height);
     return !found ? true : false;
   }
 
   isVisibleBelow(point) {
     let column = this.matrix.map((row) => {
-      return row[point.y];
+      return row[point.x];
     });
-    column = column.slice(point.x + 1);
+    column = column.slice(point.y + 1);
     const found = column.find((neighbour) => neighbour.height >= point.height);
     return !found ? true : false;
   }
@@ -74,6 +78,22 @@ class Matrix {
       this.isVisibleBelow(point)
     );
   }
+
+  // viewOnRight(point) {
+  //   const row = this.matrix[point.x].slice(point.y + 1);
+  //   const found = row.filter((neighbour) => neighbour.height <= point.height);
+  //   return found.length;
+  // }
+
+  // viewOnLeft(point) {
+  //   let row = this.matrix[point.x].slice(0, point.y);
+  //   console.log(row);
+  //   row.reverse();
+  //   console.log(row);
+  //   const found = row.filter((neighbour) => neighbour.height <= point.height);
+  //   console.log(found);
+  //   return found.length;
+  // }
 
   count() {
     const visibleTrees = [];
@@ -99,7 +119,13 @@ export const day_8 = () => {
   matrix.create(data);
 
   console.log("DAY EIGHT\n");
-  // console.log(JSON.stringify(matrix.matrix, null, 2));
+  // console.log(JSON.stringify(matrix, null, 2));
   console.log(`1: ${matrix.count()}`);
-  console.log(`2: TODO \n\n`);
+  // console.log(
+  //   `${matrix.isVisibleBelow({
+  //     x: 2,
+  //     y: 3,
+  //     height: 5,
+  //   })}`
+  // );
 };
