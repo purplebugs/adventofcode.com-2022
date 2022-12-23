@@ -17,6 +17,25 @@ class Matrix {
     this.matrix = matrix;
   }
 
+  create(data = "") {
+    const numberLines = data.split("\n");
+
+    // Put array in array to make 2D array
+    let x = 0;
+    this.matrix = numberLines.map((line) => {
+      const toInt = line.split("");
+      const toArrayOfInt = [];
+      let y = 0;
+      toInt.forEach((char) => {
+        const item = new Point(x, y, +char);
+        toArrayOfInt.push(item);
+        y++;
+      });
+      x++;
+      return toArrayOfInt;
+    });
+  }
+
   isVisibleOnRight(point) {
     const row = this.matrix[point.x].slice(point.y + 1);
     const found = row.find((neighbour) => neighbour.height >= point.height);
@@ -47,9 +66,7 @@ class Matrix {
     return !found ? true : false;
   }
 
-  isVisible(x, y) {
-    const point = this.matrix[x][y];
-
+  isVisible(point) {
     return (
       this.isVisibleOnRight(point) ||
       this.isVisibleOnLeft(point) ||
@@ -58,29 +75,24 @@ class Matrix {
     );
   }
 
-  create(data = "") {
-    const numberLines = data.split("\n");
+  count() {
+    const visibleTrees = [];
 
-    // Put array in array to make 2D array
-    let x = 0;
-    this.matrix = numberLines.map((line) => {
-      const toInt = line.split("");
-      const toArrayOfInt = [];
-      let y = 0;
-      toInt.forEach((char) => {
-        const item = new Point(x, y, +char);
-        toArrayOfInt.push(item);
-        y++;
+    this.matrix.forEach((row) => {
+      row.forEach((item) => {
+        if (this.isVisible(item)) {
+          visibleTrees.push(item);
+        }
       });
-      x++;
-      return toArrayOfInt;
     });
+
+    return visibleTrees.length;
   }
 }
 
 export const day_8 = () => {
-  const day_8 = "day-8-example.txt"; //  https://adventofcode.com/2022/day/8
-  //const day_8 = "day-8.txt"; //  https://adventofcode.com/2022/day/8
+  // const day_8 = "day-8-example.txt"; //  https://adventofcode.com/2022/day/8
+  const day_8 = "day-8.txt"; //  https://adventofcode.com/2022/day/8
 
   const data = readFileSync(`./data/${day_8}`, "utf8");
   const matrix = new Matrix();
@@ -88,6 +100,6 @@ export const day_8 = () => {
 
   console.log("DAY EIGHT\n");
   // console.log(JSON.stringify(matrix.matrix, null, 2));
-  console.log("isVisible", matrix.isVisible(4, 4));
+  console.log(matrix.count());
   //console.log(`2: TODO \n\n`);
 };
