@@ -48,10 +48,7 @@ class Matrix {
   }
 
   isVisible(x, y) {
-    //console.log(`${x},${y}: ${this.matrix[x][y]}`);
-
     const point = this.matrix[x][y];
-    console.log("point", point);
 
     return (
       this.isVisibleOnRight(point) ||
@@ -67,7 +64,6 @@ class Matrix {
     // Put array in array to make 2D array
     let x = 0;
     this.matrix = numberLines.map((line) => {
-      console.log(`line: ${line}`);
       const toInt = line.split("");
       const toArrayOfInt = [];
       let y = 0;
