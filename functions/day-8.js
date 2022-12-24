@@ -59,7 +59,6 @@ class Matrix {
       (neighbour) => neighbour.height >= point.height
     );
     point.viewingDistanceLeft = isHidden !== -1 ? isHidden + 1 : row.length;
-    //console.log("point.viewingDistanceLeft", point.viewingDistanceLeft);
     return isHidden === -1;
   }
 
@@ -69,10 +68,12 @@ class Matrix {
     });
 
     column = column.slice(0, point.y);
-    const isHidden = column.find(
+    column.reverse();
+    const isHidden = column.findIndex(
       (neighbour) => neighbour.height >= point.height
     );
-    return !isHidden ? true : false;
+    point.viewingDistanceAbove = isHidden !== -1 ? isHidden + 1 : column.length;
+    return isHidden === -1;
   }
 
   isVisibleBelow(point) {
@@ -111,7 +112,7 @@ class Matrix {
 }
 
 export const day_8 = () => {
-  // const day_8 = "day-8-example.txt"; //  https://adventofcode.com/2022/day/8
+  //  const day_8 = "day-8-example.txt"; //  https://adventofcode.com/2022/day/8
   const day_8 = "day-8.txt"; //  https://adventofcode.com/2022/day/8
 
   const data = readFileSync(`./data/${day_8}`, "utf8");
@@ -122,7 +123,7 @@ export const day_8 = () => {
   // console.log(JSON.stringify(matrix, null, 2));
   console.log(`1: ${matrix.count()}`);
   // console.log(
-  //   `${matrix.isVisibleOnLeft({
+  //   `${matrix.isVisibleAbove({
   //     x: 3,
   //     y: 3,
   //     height: 4,
