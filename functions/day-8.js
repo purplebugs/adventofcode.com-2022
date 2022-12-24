@@ -80,11 +80,14 @@ class Matrix {
     let column = this.matrix.map((row) => {
       return row[point.x];
     });
+
     column = column.slice(point.y + 1);
-    const isHidden = column.find(
+
+    const isHidden = column.findIndex(
       (neighbour) => neighbour.height >= point.height
     );
-    return !isHidden ? true : false;
+    point.viewingDistanceBelow = isHidden !== -1 ? isHidden + 1 : column.length;
+    return isHidden === -1;
   }
 
   isVisible(point) {
@@ -112,7 +115,7 @@ class Matrix {
 }
 
 export const day_8 = () => {
-  //  const day_8 = "day-8-example.txt"; //  https://adventofcode.com/2022/day/8
+  // const day_8 = "day-8-example.txt"; //  https://adventofcode.com/2022/day/8
   const day_8 = "day-8.txt"; //  https://adventofcode.com/2022/day/8
 
   const data = readFileSync(`./data/${day_8}`, "utf8");
@@ -123,10 +126,10 @@ export const day_8 = () => {
   // console.log(JSON.stringify(matrix, null, 2));
   console.log(`1: ${matrix.count()}`);
   // console.log(
-  //   `${matrix.isVisibleAbove({
-  //     x: 3,
-  //     y: 3,
-  //     height: 4,
+  //   `${matrix.isVisibleBelow({
+  //     x: 0,
+  //     y: 0,
+  //     height: 3,
   //   })}`
   // );
 };
