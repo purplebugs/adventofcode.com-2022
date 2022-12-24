@@ -9,11 +9,12 @@ class Point {
     this.viewingDistanceLeft = 0;
     this.viewingDistanceAbove = 0;
     this.viewingDistanceBelow = 0;
+    this.scenicScore = 0;
   }
 
-  toJSON() {
-    return this.height;
-  }
+  // toJSON() {
+  //   return this.height;
+  // }
 }
 
 class Matrix {
@@ -34,7 +35,6 @@ class Matrix {
       toInt.forEach((char) => {
         const item = new Point(x, y, +char);
         toArrayOfInt.push(item);
-        //console.log("item", item);
         x++;
       });
       y++;
@@ -86,31 +86,53 @@ class Matrix {
     const isHidden = column.findIndex(
       (neighbour) => neighbour.height >= point.height
     );
+
     point.viewingDistanceBelow = isHidden !== -1 ? isHidden + 1 : column.length;
     return isHidden === -1;
   }
 
   isVisible(point) {
-    return (
-      this.isVisibleOnRight(point) ||
-      this.isVisibleOnLeft(point) ||
-      this.isVisibleAbove(point) ||
-      this.isVisibleBelow(point)
-    );
+    const right = this.isVisibleOnRight(point);
+    const left = this.isVisibleOnLeft(point);
+    const above = this.isVisibleAbove(point);
+    const below = this.isVisibleBelow(point);
+
+    return right || left || above || below;
   }
 
-  count() {
+  process() {
     const visibleTrees = [];
 
     this.matrix.forEach((row) => {
-      row.forEach((item) => {
-        if (this.isVisible(item)) {
-          visibleTrees.push(item);
+      row.forEach((point) => {
+        if (this.isVisible(point)) {
+          visibleTrees.push(point);
         }
       });
     });
 
-    return visibleTrees.length;
+    return { countVisible: visibleTrees.length };
+  }
+
+  processView() {
+    let maxView = 0;
+    let mostScenicPoint = this.matrix[0][0];
+
+    this.matrix.forEach((row) => {
+      row.forEach((point) => {
+        point.scenicScore =
+          point.viewingDistanceRight *
+          point.viewingDistanceLeft *
+          point.viewingDistanceAbove *
+          point.viewingDistanceBelow;
+
+        if (point.scenicScore > maxView) {
+          mostScenicPoint = point;
+          maxView = point.scenicScore;
+        }
+      });
+    });
+    return mostScenicPoint;
   }
 }
 
@@ -123,13 +145,16 @@ export const day_8 = () => {
   matrix.create(data);
 
   console.log("DAY EIGHT\n");
+
+  console.log(`1: ${matrix.process().countVisible}`);
+  console.log(`processView: ${JSON.stringify(matrix.processView())}`);
   // console.log(JSON.stringify(matrix, null, 2));
-  console.log(`1: ${matrix.count()}`);
-  // console.log(
-  //   `${matrix.isVisibleBelow({
-  //     x: 0,
-  //     y: 0,
-  //     height: 3,
-  //   })}`
-  // );
+
+  console.log(
+    `${matrix.isVisibleOnRight({
+      x: 2,
+      y: 3,
+      height: 5,
+    })}`
+  );
 };
