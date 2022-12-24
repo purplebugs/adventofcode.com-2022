@@ -45,21 +45,22 @@ class Matrix {
 
   isVisibleOnRight(point) {
     const row = this.matrix[point.y].slice(point.x + 1);
-    // console.log("row", row);
     const isHidden = row.findIndex(
       (neighbour) => neighbour.height >= point.height
     );
     point.viewingDistanceRight = isHidden !== -1 ? isHidden + 1 : row.length;
-    //console.log("point.viewingDistanceRight", point.viewingDistanceRight);
-    //console.log("isHidden", isHidden);
     return isHidden === -1;
-    //return !isHidden ? true : false;
   }
 
   isVisibleOnLeft(point) {
     const row = this.matrix[point.y].slice(0, point.x);
-    const isHidden = row.find((neighbour) => neighbour.height >= point.height);
-    return !isHidden ? true : false;
+    row.reverse();
+    const isHidden = row.findIndex(
+      (neighbour) => neighbour.height >= point.height
+    );
+    point.viewingDistanceLeft = isHidden !== -1 ? isHidden + 1 : row.length;
+    //console.log("point.viewingDistanceLeft", point.viewingDistanceLeft);
+    return isHidden === -1;
   }
 
   isVisibleAbove(point) {
@@ -121,10 +122,10 @@ export const day_8 = () => {
   // console.log(JSON.stringify(matrix, null, 2));
   console.log(`1: ${matrix.count()}`);
   // console.log(
-  //   `${matrix.isVisibleOnRight({
-  //     x: 1,
-  //     y: 2,
-  //     height: 5,
+  //   `${matrix.isVisibleOnLeft({
+  //     x: 3,
+  //     y: 3,
+  //     height: 4,
   //   })}`
   // );
 };
