@@ -100,7 +100,7 @@ class Matrix {
     return right || left || above || below;
   }
 
-  process() {
+  processVisibility() {
     const visibleTrees = [];
 
     this.matrix.forEach((row) => {
@@ -146,15 +146,15 @@ export const day_8 = () => {
 
   console.log("DAY EIGHT\n");
 
-  console.log(`1: ${matrix.process().countVisible}`);
-  console.log(`processView: ${JSON.stringify(matrix.processView())}`);
+  console.log(`1: ${matrix.processVisibility().countVisible}`);
+  console.log(`2: ${matrix.processView().scenicScore}`);
   // console.log(JSON.stringify(matrix, null, 2));
 
-  console.log(
-    `${matrix.isVisibleOnRight({
-      x: 2,
-      y: 3,
-      height: 5,
-    })}`
-  );
+  // console.log(
+  //   `${matrix.isVisibleOnRight({
+  //     x: 2,
+  //     y: 3,
+  //     height: 5,
+  //   })}`
+  // );
 };
