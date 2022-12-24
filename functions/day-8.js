@@ -5,6 +5,10 @@ class Point {
     this.x = x;
     this.y = y;
     this.height = height;
+    this.viewingDistanceRight = 0;
+    this.viewingDistanceLeft = 0;
+    this.viewingDistanceAbove = 0;
+    this.viewingDistanceBelow = 0;
   }
 
   toJSON() {
@@ -41,14 +45,21 @@ class Matrix {
 
   isVisibleOnRight(point) {
     const row = this.matrix[point.y].slice(point.x + 1);
-    const found = row.find((neighbour) => neighbour.height >= point.height);
-    return !found ? true : false;
+    // console.log("row", row);
+    const isHidden = row.findIndex(
+      (neighbour) => neighbour.height >= point.height
+    );
+    point.viewingDistanceRight = isHidden !== -1 ? isHidden + 1 : row.length;
+    //console.log("point.viewingDistanceRight", point.viewingDistanceRight);
+    //console.log("isHidden", isHidden);
+    return isHidden === -1;
+    //return !isHidden ? true : false;
   }
 
   isVisibleOnLeft(point) {
     const row = this.matrix[point.y].slice(0, point.x);
-    const found = row.find((neighbour) => neighbour.height >= point.height);
-    return !found ? true : false;
+    const isHidden = row.find((neighbour) => neighbour.height >= point.height);
+    return !isHidden ? true : false;
   }
 
   isVisibleAbove(point) {
@@ -57,8 +68,10 @@ class Matrix {
     });
 
     column = column.slice(0, point.y);
-    const found = column.find((neighbour) => neighbour.height >= point.height);
-    return !found ? true : false;
+    const isHidden = column.find(
+      (neighbour) => neighbour.height >= point.height
+    );
+    return !isHidden ? true : false;
   }
 
   isVisibleBelow(point) {
@@ -66,8 +79,10 @@ class Matrix {
       return row[point.x];
     });
     column = column.slice(point.y + 1);
-    const found = column.find((neighbour) => neighbour.height >= point.height);
-    return !found ? true : false;
+    const isHidden = column.find(
+      (neighbour) => neighbour.height >= point.height
+    );
+    return !isHidden ? true : false;
   }
 
   isVisible(point) {
@@ -78,22 +93,6 @@ class Matrix {
       this.isVisibleBelow(point)
     );
   }
-
-  // viewOnRight(point) {
-  //   const row = this.matrix[point.x].slice(point.y + 1);
-  //   const found = row.filter((neighbour) => neighbour.height <= point.height);
-  //   return found.length;
-  // }
-
-  // viewOnLeft(point) {
-  //   let row = this.matrix[point.x].slice(0, point.y);
-  //   console.log(row);
-  //   row.reverse();
-  //   console.log(row);
-  //   const found = row.filter((neighbour) => neighbour.height <= point.height);
-  //   console.log(found);
-  //   return found.length;
-  // }
 
   count() {
     const visibleTrees = [];
@@ -111,7 +110,7 @@ class Matrix {
 }
 
 export const day_8 = () => {
-  //const day_8 = "day-8-example.txt"; //  https://adventofcode.com/2022/day/8
+  // const day_8 = "day-8-example.txt"; //  https://adventofcode.com/2022/day/8
   const day_8 = "day-8.txt"; //  https://adventofcode.com/2022/day/8
 
   const data = readFileSync(`./data/${day_8}`, "utf8");
@@ -122,9 +121,9 @@ export const day_8 = () => {
   // console.log(JSON.stringify(matrix, null, 2));
   console.log(`1: ${matrix.count()}`);
   // console.log(
-  //   `${matrix.isVisibleBelow({
-  //     x: 2,
-  //     y: 3,
+  //   `${matrix.isVisibleOnRight({
+  //     x: 1,
+  //     y: 2,
   //     height: 5,
   //   })}`
   // );
