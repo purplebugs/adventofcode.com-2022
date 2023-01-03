@@ -14,21 +14,19 @@ class Point {
 }
 
 class Matrix {
-  constructor() {
+  constructor(x = 0, y = 0) {
     this.width = 0;
     this.height = 0;
-    this.currentHead = new Point();
-    this.currentTail = new Point();
+    this.currentHead = new Point(x, y, "H", true);
+    this.currentTail = new Point(x, y, "T", true);
     this.visitedTailPositions = [];
   }
 
   create(data = "") {
     const instructionLines = data.split("\n");
 
-    let x = 0;
-    let y = 0;
-    let head = new Point(x, y, "H", true);
-    let tail = new Point(x, y, "T", true);
+    let head = this.currentHead;
+    let tail = this.currentTail;
     this.visitedTailPositions.push({
       x: tail.x,
       y: tail.y,
@@ -40,15 +38,15 @@ class Matrix {
       // TODO handle toInstructionLine[1] as currently assumes number is always 1
       // TODO handle L, U, D
       if (toInstructionLine[0] === "R") {
-        x = x + 1;
         this.width = this.width + 1; // TODO update this.width, this.height as appropriate
-        // TODO create new Point item
+        // TODO handle currentHead.isTouching value
+        // TODO update this.currentTail based on isTouching
         this.currentHead = new Point(
           this.currentHead.x + 1,
           head.y,
           "H",
           head.isTouching
-        ); // TODO handle isTouching value
+        );
         this.currentTail = tail;
         this.visitedTailPositions.push({
           x: tail.x,
