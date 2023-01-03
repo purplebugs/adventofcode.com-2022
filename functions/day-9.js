@@ -59,5 +59,5 @@ export const day_9 = () => {
 
   console.log(`1: TODO `);
   console.log(`2: TODO \n\n`);
-  console.log(JSON.stringify(matrix, null, 2));
+  // console.log(JSON.stringify(matrix, null, 2));
 };
