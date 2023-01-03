@@ -14,35 +14,47 @@ class Point {
 }
 
 class Matrix {
-  constructor(matrix = []) {
-    this.matrix = matrix;
-    this.currentHeadPosition = new Point();
-    this.currentTailPosition = new Point();
-    this.visitedTailPositions = new Set();
+  constructor() {
+    this.width = 0;
+    this.height = 0;
+    this.currentHead = new Point();
+    this.currentTail = new Point();
+    this.visitedTailPositions = [];
   }
 
   create(data = "") {
     const instructionLines = data.split("\n");
 
-    // Put array in array to make 2D array
     let x = 0;
     let y = 0;
-    this.matrix = instructionLines.map((line) => {
+    let head = new Point(x, y, "H", true);
+    let tail = new Point(x, y, "T", true);
+    this.visitedTailPositions.push({
+      x: tail.x,
+      y: tail.y,
+    });
+
+    this.matrix = instructionLines.forEach((line) => {
       const toInstructionLine = line.split(" ");
-      const toArrayOfState = []; // indicated by one of the chars: . H T
 
-      if (toInstructionLine[0] === "R") {
-        // TODO handle L, U, D
-        // TODO increment x,y as appropriate
-        // TODO create new Point item
-        // TODO update currentHeadPosition
-        // TODO update currentTailPosition
-        // TODO update visitedTailPositions
-        // TODO toArrayOfState.push(item)
-      }
       // TODO handle toInstructionLine[1] as currently assumes number is always 1
-
-      return toArrayOfState;
+      // TODO handle L, U, D
+      if (toInstructionLine[0] === "R") {
+        x = x + 1;
+        this.width = this.width + 1; // TODO update this.width, this.height as appropriate
+        // TODO create new Point item
+        this.currentHead = new Point(
+          this.currentHead.x + 1,
+          head.y,
+          "H",
+          head.isTouching
+        ); // TODO handle isTouching value
+        this.currentTail = tail;
+        this.visitedTailPositions.push({
+          x: tail.x,
+          y: tail.y,
+        });
+      }
     });
   }
 }
@@ -59,5 +71,5 @@ export const day_9 = () => {
 
   console.log(`1: TODO `);
   console.log(`2: TODO \n\n`);
-  // console.log(JSON.stringify(matrix, null, 2));
+  console.log(JSON.stringify(matrix, null, 2));
 };
