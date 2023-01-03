@@ -6,6 +6,7 @@ import { day_5 } from "./functions/day-5.js";
 import { day_6 } from "./functions/day-6.js";
 import { day_7 } from "./functions/day-7.js";
 import { day_8 } from "./functions/day-8.js";
+import { day_9 } from "./functions/day-9.js";
 
 day_1();
 day_2();
@@ -15,3 +16,4 @@ day_5();
 day_6();
 day_7();
 day_8();
+day_9();

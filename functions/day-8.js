@@ -147,7 +147,7 @@ export const day_8 = () => {
   console.log("DAY EIGHT\n");
 
   console.log(`1: ${matrix.processVisibility().countVisible}`);
-  console.log(`2: ${matrix.processView().scenicScore}`);
+  console.log(`2: ${matrix.processView().scenicScore}\n\n`);
   // console.log(JSON.stringify(matrix, null, 2));
 
   // console.log(
