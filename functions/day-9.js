@@ -40,7 +40,18 @@ class Matrix {
   }
 
   create(data = "") {
-    const instructionLines = data.split("\n");
+    const rawInstructions = data.split("\n");
+    const instructionLines = rawInstructions.map((instruction) => {
+      // format eg ["R 4", "L 2"] as [R,R,R,R,L,L]
+
+      const repeater = +instruction[2];
+      for (let i = 1; i <= repeater; i++) {
+        // TODO handle toInstructionLine[1] as currently assumes number is always 1
+      }
+      return instruction[0];
+    });
+
+    // console.log("instructionLines", instructionLines);
 
     let head = this.currentHead;
     let tail = this.currentTail;
@@ -49,7 +60,7 @@ class Matrix {
       const toInstructionLine = line.split(" ");
 
       if (this.isTouching(head, tail)) {
-        console.log("is touching");
+        // console.log("is touching");
         // console.log("this.isTouching(head, tail)", this.isTouching(head, tail));
         this.currentTail = this.currentHead;
         this.visitedTailPositions.push({
@@ -58,7 +69,6 @@ class Matrix {
         });
       }
 
-      // TODO handle toInstructionLine[1] as currently assumes number is always 1
       // TODO handle L, U, D
       if (toInstructionLine[0] === "R") {
         this.width = this.width + 1; // TODO update this.width, this.height as appropriate
