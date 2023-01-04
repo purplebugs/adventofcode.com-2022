@@ -12,6 +12,10 @@ class Point {
   // }
 }
 
+const calcuateTouching = (a, b) => {
+  return Math.abs(a - b) <= 1;
+};
+
 class Matrix {
   constructor(x = 0, y = 0) {
     this.width = 0;
@@ -28,10 +32,7 @@ class Matrix {
 
   isTouching(head, tail) {
     let isTouching = false;
-    if (head.x === tail.x) {
-      isTouching = true;
-    }
-    if (head.y === tail.y) {
+    if (Math.abs(head.x - tail.x) > -1) {
       isTouching = true;
     }
     // TODO add logic for one space apart in any direction
@@ -43,19 +44,17 @@ class Matrix {
 
     let head = this.currentHead;
     let tail = this.currentTail;
-    let previousHeadPosition = this.currentHead;
 
     this.matrix = instructionLines.forEach((line) => {
       const toInstructionLine = line.split(" ");
 
-      // console.log("this.isTouching(head, tail)", this.isTouching(head, tail));
-      // TODO bugfix logic
-      if (!this.isTouching(head, tail)) {
-        console.log("is NOT touching");
-        this.currentTail = previousHeadPosition;
+      if (this.isTouching(head, tail)) {
+        console.log("is touching");
+        // console.log("this.isTouching(head, tail)", this.isTouching(head, tail));
+        this.currentTail = this.currentHead;
         this.visitedTailPositions.push({
-          x: currentTail.x,
-          y: currentTail.y,
+          x: this.currentTail.x,
+          y: this.currentTail.y,
         });
       }
 
@@ -63,9 +62,6 @@ class Matrix {
       // TODO handle L, U, D
       if (toInstructionLine[0] === "R") {
         this.width = this.width + 1; // TODO update this.width, this.height as appropriate
-
-        console.log("previousHeadPosition", previousHeadPosition);
-        previousHeadPosition = this.currentHead;
         this.currentHead = new Point(this.currentHead.x + 1, head.y, "H");
       }
     });
