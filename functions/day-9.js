@@ -20,8 +20,14 @@ class Matrix {
   constructor(x = 0, y = 0) {
     this.width = 0;
     this.height = 0;
-    this.currentHead = new Point(x, y, "H", true);
-    this.currentTail = new Point(x, y, "T", true);
+    this.currentHead = new Point(x, y, "H");
+    this.currentTail = new Point(x, y, "T");
+    this.visitedHeadPositions = [
+      {
+        x: this.currentHead.x,
+        y: this.currentHead.y,
+      },
+    ];
     this.visitedTailPositions = [
       {
         x: this.currentTail.x,
@@ -30,15 +36,15 @@ class Matrix {
     ];
   }
 
-  isTouching() {
-    let isTouching = false;
-    if (Math.abs(this.currentHead.x - this.currentTail.x) > -1) {
-      isTouching = true;
+  isApart() {
+    let isApart = false;
+    if (Math.abs(this.currentHead.x - this.currentTail.x) > 1) {
+      isApart = true;
     }
-    if (Math.abs(this.currentHead.y - this.currentTail.y) > -1) {
-      isTouching = true;
+    if (Math.abs(this.currentHead.y - this.currentTail.y) > 1) {
+      isApart = true;
     }
-    return isTouching;
+    return isApart;
   }
 
   create(data = "") {
@@ -57,6 +63,7 @@ class Matrix {
     instructions = instructions.flatMap((instruction) => instruction);
 
     this.matrix = instructions.forEach((instruction) => {
+      let previousHead = this.currentHead;
       if (instruction === "R") {
         this.width = this.width + 1;
         this.currentHead = new Point(
@@ -76,27 +83,32 @@ class Matrix {
       if (instruction === "U") {
         this.height = this.height + 1;
         this.currentHead = new Point(
+          this.currentHead.x,
           this.currentHead.y + 1,
-          this.currentHead.y,
           "H"
         );
       }
       if (instruction === "D") {
         this.height = this.height - 1;
         this.currentHead = new Point(
+          this.currentHead.x,
           this.currentHead.y - 1,
-          this.currentHead.y,
           "H"
         );
       }
 
-      if (this.isTouching()) {
-        this.currentTail = this.currentHead;
+      if (this.isApart()) {
+        this.currentTail = previousHead;
+
         this.visitedTailPositions.push({
           x: this.currentTail.x,
           y: this.currentTail.y,
         });
       }
+      this.visitedHeadPositions.push({
+        x: this.currentHead.x,
+        y: this.currentHead.y,
+      });
     });
   }
 }
