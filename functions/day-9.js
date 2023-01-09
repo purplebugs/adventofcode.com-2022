@@ -40,7 +40,6 @@ class Matrix {
     if (Math.abs(this.currentHead.y - this.currentTail.y) > 1) {
       isApart = true;
     }
-    // TODO handle diagonally apart
     return isApart;
   }
 
@@ -111,17 +110,23 @@ class Matrix {
 }
 
 export const day_9 = () => {
-  const day_9 = "day-9-example.txt"; //  https://adventofcode.com/2022/day/9
-  // const day_9 = "day-9.txt"; //  https://adventofcode.com/2022/day/9
+  // const day_9 = "day-9-example.txt"; //  https://adventofcode.com/2022/day/9
+  const day_9 = "day-9.txt"; //  https://adventofcode.com/2022/day/9
 
   const data = readFileSync(`./data/${day_9}`, "utf8");
   const matrix = new Matrix();
   matrix.create(data);
-  const uniquePositions = [...new Set(matrix.visitedTailPositions)].length;
+  let distinctPositions = new Map();
+
+  matrix.visitedTailPositions.forEach((position) => {
+    if (!distinctPositions.has(`${position.x}:${position.y}`)) {
+      distinctPositions.set(`${position.x}:${position.y}`);
+    }
+  });
 
   console.log("DAY NINE\n");
 
-  console.log(`1: TODO ${uniquePositions}`);
+  console.log(`1: ${distinctPositions.size}`);
   console.log(`2: TODO \n\n`);
-  //console.log(JSON.stringify(matrix, null, 2));
+  // console.log(JSON.stringify(matrix, null, 2));
 };
