@@ -12,10 +12,6 @@ class Point {
   // }
 }
 
-const calcuateTouching = (a, b) => {
-  return Math.abs(a - b) <= 1;
-};
-
 class Matrix {
   constructor(x = 0, y = 0) {
     this.width = 0;
@@ -44,6 +40,7 @@ class Matrix {
     if (Math.abs(this.currentHead.y - this.currentTail.y) > 1) {
       isApart = true;
     }
+    // TODO handle diagonally apart
     return isApart;
   }
 
@@ -53,7 +50,7 @@ class Matrix {
       // format eg ["R 4", "L 2"] as [R,R,R,R,L,L]
 
       let instruction = [];
-      const repeater = +instructionLine[2]; // TODO handle two digit numbers
+      const repeater = +instructionLine.substring(1);
       for (let i = 1; i <= repeater; i++) {
         instruction.push(instructionLine[0]);
       }
@@ -120,11 +117,11 @@ export const day_9 = () => {
   const data = readFileSync(`./data/${day_9}`, "utf8");
   const matrix = new Matrix();
   matrix.create(data);
-  const uniquePositions = [...new Set(matrix.visitedTailPositions)].length - 1;
+  const uniquePositions = [...new Set(matrix.visitedTailPositions)].length;
 
   console.log("DAY NINE\n");
 
   console.log(`1: TODO ${uniquePositions}`);
   console.log(`2: TODO \n\n`);
-  // console.log(JSON.stringify(matrix, null, 2));
+  //console.log(JSON.stringify(matrix, null, 2));
 };
