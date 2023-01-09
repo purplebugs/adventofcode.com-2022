@@ -56,10 +56,8 @@ class Matrix {
 
     instructions = instructions.flatMap((instruction) => instruction);
 
-    this.matrix = instructions.forEach((line) => {
-      const toInstructionLine = line.split(" ");
-
-      if (toInstructionLine[0] === "R") {
+    this.matrix = instructions.forEach((instruction) => {
+      if (instruction === "R") {
         this.width = this.width + 1;
         this.currentHead = new Point(
           this.currentHead.x + 1,
@@ -67,7 +65,7 @@ class Matrix {
           "H"
         );
       }
-      if (toInstructionLine[0] === "L") {
+      if (instruction === "L") {
         this.width = this.width - 1;
         this.currentHead = new Point(
           this.currentHead.x - 1,
@@ -75,7 +73,7 @@ class Matrix {
           "H"
         );
       }
-      if (toInstructionLine[0] === "U") {
+      if (instruction === "U") {
         this.height = this.height + 1;
         this.currentHead = new Point(
           this.currentHead.y + 1,
@@ -83,7 +81,7 @@ class Matrix {
           "H"
         );
       }
-      if (toInstructionLine[0] === "D") {
+      if (instruction === "D") {
         this.height = this.height - 1;
         this.currentHead = new Point(
           this.currentHead.y - 1,
