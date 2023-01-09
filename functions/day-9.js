@@ -41,22 +41,24 @@ class Matrix {
 
   create(data = "") {
     const rawInstructions = data.split("\n");
-    const instructionLines = rawInstructions.map((instruction) => {
+    let instructions = rawInstructions.map((instruction) => {
       // format eg ["R 4", "L 2"] as [R,R,R,R,L,L]
 
+      let instructionsWithRepeater = [];
       const repeater = +instruction[2];
       for (let i = 1; i <= repeater; i++) {
-        // TODO handle toInstructionLine[1] as currently assumes number is always 1
+        instructionsWithRepeater.push(instruction[0]);
       }
-      return instruction[0];
+      return instructionsWithRepeater;
     });
 
-    // console.log("instructionLines", instructionLines);
+    instructions = instructions.flatMap((instruction) => instruction);
+    console.log(instructions);
 
     let head = this.currentHead;
     let tail = this.currentTail;
 
-    this.matrix = instructionLines.forEach((line) => {
+    this.matrix = instructions.forEach((line) => {
       const toInstructionLine = line.split(" ");
 
       if (this.isTouching(head, tail)) {
@@ -71,8 +73,12 @@ class Matrix {
 
       // TODO handle L, U, D
       if (toInstructionLine[0] === "R") {
-        this.width = this.width + 1; // TODO update this.width, this.height as appropriate
+        this.width = this.width + 1;
         this.currentHead = new Point(this.currentHead.x + 1, head.y, "H");
+      }
+      if (toInstructionLine[0] === "L") {
+        this.width = this.width - 1;
+        this.currentHead = new Point(this.currentHead.x - 1, head.y, "H");
       }
     });
   }
