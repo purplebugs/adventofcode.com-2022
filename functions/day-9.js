@@ -30,12 +30,12 @@ class Matrix {
     ];
   }
 
-  isTouching(head, tail) {
+  isTouching() {
     let isTouching = false;
-    if (Math.abs(head.x - tail.x) > -1) {
+    if (Math.abs(this.currentHead.x - this.currentTail.x) > -1) {
       isTouching = true;
     }
-    if (Math.abs(head.y - tail.y) > -1) {
+    if (Math.abs(this.currentHead.y - this.currentTail.y) > -1) {
       isTouching = true;
     }
     return isTouching;
@@ -90,7 +90,7 @@ class Matrix {
         );
       }
 
-      if (this.isTouching(this.currentHead, this.currentTail)) {
+      if (this.isTouching()) {
         this.currentTail = this.currentHead;
         this.visitedTailPositions.push({
           x: this.currentTail.x,
