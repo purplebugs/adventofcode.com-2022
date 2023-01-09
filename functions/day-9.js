@@ -14,8 +14,6 @@ class Point {
 
 class Matrix {
   constructor(x = 0, y = 0) {
-    this.width = 0;
-    this.height = 0;
     this.currentHead = new Point(x, y, "H");
     this.currentTail = new Point(x, y, "T");
     this.visitedHeadPositions = [
@@ -61,7 +59,6 @@ class Matrix {
     this.matrix = instructions.forEach((instruction) => {
       let previousHead = this.currentHead;
       if (instruction === "R") {
-        this.width = this.width + 1;
         this.currentHead = new Point(
           this.currentHead.x + 1,
           this.currentHead.y,
@@ -69,7 +66,6 @@ class Matrix {
         );
       }
       if (instruction === "L") {
-        this.width = this.width - 1;
         this.currentHead = new Point(
           this.currentHead.x - 1,
           this.currentHead.y,
@@ -77,7 +73,6 @@ class Matrix {
         );
       }
       if (instruction === "U") {
-        this.height = this.height + 1;
         this.currentHead = new Point(
           this.currentHead.x,
           this.currentHead.y + 1,
@@ -85,7 +80,6 @@ class Matrix {
         );
       }
       if (instruction === "D") {
-        this.height = this.height - 1;
         this.currentHead = new Point(
           this.currentHead.x,
           this.currentHead.y - 1,
@@ -95,7 +89,6 @@ class Matrix {
 
       if (this.isApart()) {
         this.currentTail = previousHead;
-
         this.visitedTailPositions.push({
           x: this.currentTail.x,
           y: this.currentTail.y,
