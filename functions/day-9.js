@@ -114,8 +114,7 @@ class Matrix {
         if (this.isApart(i)) {
           this.snake[i + 1] = this.previousPosition;
         }
-        this.previousPosition = this.snake[i];
-
+        this.previousPosition = this.snake[0];
         this.visitedHeadPositions.push({
           x: this.snake[0].x,
           y: this.snake[0].y,
