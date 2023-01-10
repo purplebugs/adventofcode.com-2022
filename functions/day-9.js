@@ -1,7 +1,7 @@
 import { readFileSync } from "fs";
 
 //const day_9_data = "day-9-example.txt"; //  https://adventofcode.com/2022/day/9
-// const day_9_data = "day-9-example-part-2.txt"; //  https://adventofcode.com/2022/day/9
+//const day_9_data = "day-9-example-part-2.txt"; //  https://adventofcode.com/2022/day/9
 const day_9_data = "day-9.txt"; //  https://adventofcode.com/2022/day/9
 
 const data = readFileSync(`./data/${day_9_data}`, "utf8");
@@ -107,20 +107,21 @@ class Matrix {
   create() {
     const instructions = getInstructions();
     this.matrix = instructions.forEach((instruction) => {
+      this.move(0, instruction); // always move head
       for (let i = 0; i < this.last; i++) {
-        this.previousPosition = this.snake[i];
-        this.move(i, instruction);
         if (this.isApart(i)) {
+          //this.move(i + 1, instruction); // TODO troubleshoot logic here for snake Part 2
           this.snake[i + 1] = this.previousPosition;
-          this.visitedTailPositions.push({
-            x: this.snake[this.last].x,
-            y: this.snake[this.last].y,
-          });
         }
+        this.previousPosition = this.snake[i];
 
         this.visitedHeadPositions.push({
           x: this.snake[0].x,
           y: this.snake[0].y,
+        });
+        this.visitedTailPositions.push({
+          x: this.snake[this.last].x,
+          y: this.snake[this.last].y,
         });
       }
     });
