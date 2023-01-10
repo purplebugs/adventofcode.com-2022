@@ -64,34 +64,52 @@ class Matrix {
     return isApart;
   }
 
+  move(position, instruction) {
+    if (instruction === "R") {
+      this.snake[position] = new Point(
+        this.snake[position].x + 1,
+        this.snake[position].y
+      );
+    }
+    if (instruction === "L") {
+      this.snake[position] = new Point(
+        this.snake[position].x - 1,
+        this.snake[position].y
+      );
+    }
+    if (instruction === "U") {
+      this.snake[position] = new Point(
+        this.snake[position].x,
+        this.snake[position].y + 1
+      );
+    }
+    if (instruction === "D") {
+      this.snake[position] = new Point(
+        this.snake[position].x,
+        this.snake[position].y - 1
+      );
+    }
+  }
+
   create() {
     const instructions = getInstructions();
     this.matrix = instructions.forEach((instruction) => {
-      this.previousPosition = this.snake[0];
-      if (instruction === "R") {
-        this.snake[0] = new Point(this.snake[0].x + 1, this.snake[0].y, "H");
-      }
-      if (instruction === "L") {
-        this.snake[0] = new Point(this.snake[0].x - 1, this.snake[0].y, "H");
-      }
-      if (instruction === "U") {
-        this.snake[0] = new Point(this.snake[0].x, this.snake[0].y + 1, "H");
-      }
-      if (instruction === "D") {
-        this.snake[0] = new Point(this.snake[0].x, this.snake[0].y - 1, "H");
-      }
+      for (let i = 0; i < this.last; i++) {
+        this.previousPosition = this.snake[i];
+        this.move(i, instruction);
+        if (this.isApart(i)) {
+          this.snake[i + 1] = this.previousPosition;
+          this.visitedTailPositions.push({
+            x: this.snake[this.last].x,
+            y: this.snake[this.last].y,
+          });
+        }
 
-      if (this.isApart(0)) {
-        this.snake[1] = this.previousPosition;
-        this.visitedTailPositions.push({
-          x: this.snake[this.last].x,
-          y: this.snake[this.last].y,
+        this.visitedHeadPositions.push({
+          x: this.snake[0].x,
+          y: this.snake[0].y,
         });
       }
-      this.visitedHeadPositions.push({
-        x: this.snake[0].x,
-        y: this.snake[0].y,
-      });
     });
   }
 }
