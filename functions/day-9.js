@@ -1,5 +1,28 @@
 import { readFileSync } from "fs";
 
+//const day_9_data = "day-9-example.txt"; //  https://adventofcode.com/2022/day/9
+const day_9_data = "day-9.txt"; //  https://adventofcode.com/2022/day/9
+
+const data = readFileSync(`./data/${day_9_data}`, "utf8");
+
+const rawInstructions = data.split("\n");
+
+const getInstructions = () => {
+  let instructions = rawInstructions.map((instructionLine) => {
+    // ["R 4", "L 2"] -> [[R,R,R,R],[L,L]]
+
+    let instruction = [];
+    const repeater = +instructionLine.substring(1);
+    for (let i = 1; i <= repeater; i++) {
+      instruction.push(instructionLine[0]);
+    }
+    return instruction;
+  });
+
+  instructions = instructions.flatMap((instruction) => instruction); // -> [[R,R,R,R],[L,L]] -> [R,R,R,R,L,L]
+  return instructions;
+};
+
 class Point {
   constructor(x = 0, y = 0, type) {
     this.x = x;
@@ -41,21 +64,8 @@ class Matrix {
     return isApart;
   }
 
-  create(data = "") {
-    const rawInstructions = data.split("\n");
-    let instructions = rawInstructions.map((instructionLine) => {
-      // format eg ["R 4", "L 2"] as [R,R,R,R,L,L]
-
-      let instruction = [];
-      const repeater = +instructionLine.substring(1);
-      for (let i = 1; i <= repeater; i++) {
-        instruction.push(instructionLine[0]);
-      }
-      return instruction;
-    });
-
-    instructions = instructions.flatMap((instruction) => instruction);
-
+  create() {
+    const instructions = getInstructions();
     this.matrix = instructions.forEach((instruction) => {
       let previousHead = this.currentHead;
       if (instruction === "R") {
@@ -103,12 +113,8 @@ class Matrix {
 }
 
 export const day_9 = () => {
-  // const day_9 = "day-9-example.txt"; //  https://adventofcode.com/2022/day/9
-  const day_9 = "day-9.txt"; //  https://adventofcode.com/2022/day/9
-
-  const data = readFileSync(`./data/${day_9}`, "utf8");
   const matrix = new Matrix();
-  matrix.create(data);
+  matrix.create();
   let distinctPositions = new Map();
 
   matrix.visitedTailPositions.forEach((position) => {
