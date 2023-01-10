@@ -1,6 +1,7 @@
 import { readFileSync } from "fs";
 
 //const day_9_data = "day-9-example.txt"; //  https://adventofcode.com/2022/day/9
+// const day_9_data = "day-9-example-part-2.txt"; //  https://adventofcode.com/2022/day/9
 const day_9_data = "day-9.txt"; //  https://adventofcode.com/2022/day/9
 
 const data = readFileSync(`./data/${day_9_data}`, "utf8");
@@ -36,7 +37,19 @@ class Point {
 
 class Matrix {
   constructor(x = 0, y = 0) {
-    this.snake = [new Point(x, y), new Point(x, y)];
+    this.snake = [
+      new Point(x, y),
+      new Point(x, y),
+      // new Point(x, y),
+      // new Point(x, y),
+      // new Point(x, y),
+      // new Point(x, y),
+      // new Point(x, y),
+      // new Point(x, y),
+      // new Point(x, y),
+      // new Point(x, y),
+    ];
+
     this.last = this.snake.length - 1;
     this.previousPosition = this.snake[0];
     this.visitedHeadPositions = [
