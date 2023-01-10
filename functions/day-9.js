@@ -24,10 +24,9 @@ const getInstructions = () => {
 };
 
 class Point {
-  constructor(x = 0, y = 0, type) {
+  constructor(x = 0, y = 0) {
     this.x = x;
     this.y = y;
-    this.type = type; // "H" or "T"
   }
 
   // toJSON() {
@@ -37,28 +36,27 @@ class Point {
 
 class Matrix {
   constructor(x = 0, y = 0) {
-    this.currentHead = new Point(x, y, "H");
-    this.currentTail = new Point(x, y, "T");
+    this.snake = [new Point(x, y), new Point(x, y)];
     this.visitedHeadPositions = [
       {
-        x: this.currentHead.x,
-        y: this.currentHead.y,
+        x: this.snake[0].x,
+        y: this.snake[0].y,
       },
     ];
     this.visitedTailPositions = [
       {
-        x: this.currentTail.x,
-        y: this.currentTail.y,
+        x: this.snake[1].x,
+        y: this.snake[1].y,
       },
     ];
   }
 
   isApart() {
     let isApart = false;
-    if (Math.abs(this.currentHead.x - this.currentTail.x) > 1) {
+    if (Math.abs(this.snake[0].x - this.snake[1].x) > 1) {
       isApart = true;
     }
-    if (Math.abs(this.currentHead.y - this.currentTail.y) > 1) {
+    if (Math.abs(this.snake[0].y - this.snake[1].y) > 1) {
       isApart = true;
     }
     return isApart;
@@ -67,46 +65,30 @@ class Matrix {
   create() {
     const instructions = getInstructions();
     this.matrix = instructions.forEach((instruction) => {
-      let previousHead = this.currentHead;
+      let previousHead = this.snake[0];
       if (instruction === "R") {
-        this.currentHead = new Point(
-          this.currentHead.x + 1,
-          this.currentHead.y,
-          "H"
-        );
+        this.snake[0] = new Point(this.snake[0].x + 1, this.snake[0].y, "H");
       }
       if (instruction === "L") {
-        this.currentHead = new Point(
-          this.currentHead.x - 1,
-          this.currentHead.y,
-          "H"
-        );
+        this.snake[0] = new Point(this.snake[0].x - 1, this.snake[0].y, "H");
       }
       if (instruction === "U") {
-        this.currentHead = new Point(
-          this.currentHead.x,
-          this.currentHead.y + 1,
-          "H"
-        );
+        this.snake[0] = new Point(this.snake[0].x, this.snake[0].y + 1, "H");
       }
       if (instruction === "D") {
-        this.currentHead = new Point(
-          this.currentHead.x,
-          this.currentHead.y - 1,
-          "H"
-        );
+        this.snake[0] = new Point(this.snake[0].x, this.snake[0].y - 1, "H");
       }
 
       if (this.isApart()) {
-        this.currentTail = previousHead;
+        this.snake[1] = previousHead;
         this.visitedTailPositions.push({
-          x: this.currentTail.x,
-          y: this.currentTail.y,
+          x: this.snake[1].x,
+          y: this.snake[1].y,
         });
       }
       this.visitedHeadPositions.push({
-        x: this.currentHead.x,
-        y: this.currentHead.y,
+        x: this.snake[0].x,
+        y: this.snake[0].y,
       });
     });
   }
