@@ -53,12 +53,12 @@ class Matrix {
     ];
   }
 
-  isApart() {
+  isApart(position) {
     let isApart = false;
-    if (Math.abs(this.snake[0].x - this.snake[1].x) > 1) {
+    if (Math.abs(this.snake[position].x - this.snake[position + 1].x) > 1) {
       isApart = true;
     }
-    if (Math.abs(this.snake[0].y - this.snake[1].y) > 1) {
+    if (Math.abs(this.snake[position].y - this.snake[position + 1].y) > 1) {
       isApart = true;
     }
     return isApart;
@@ -81,7 +81,7 @@ class Matrix {
         this.snake[0] = new Point(this.snake[0].x, this.snake[0].y - 1, "H");
       }
 
-      if (this.isApart()) {
+      if (this.isApart(0)) {
         this.snake[1] = this.previousPosition;
         this.visitedTailPositions.push({
           x: this.snake[this.last].x,
