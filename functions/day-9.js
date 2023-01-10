@@ -35,7 +35,7 @@ class Point {
   // }
 }
 
-class Matrix {
+class Snake {
   constructor(x = 0, y = 0) {
     this.snake = [
       new Point(x, y),
@@ -106,7 +106,7 @@ class Matrix {
 
   create() {
     const instructions = getInstructions();
-    this.matrix = instructions.forEach((instruction) => {
+    instructions.forEach((instruction) => {
       for (let i = 0; i < this.last; i++) {
         if (i === 0) {
           this.move(0, instruction); // always move head
@@ -129,11 +129,11 @@ class Matrix {
 }
 
 export const day_9 = () => {
-  const matrix = new Matrix();
-  matrix.create();
+  const snake = new Snake();
+  snake.create();
   let distinctPositions = new Map();
 
-  matrix.visitedTailPositions.forEach((position) => {
+  snake.visitedTailPositions.forEach((position) => {
     if (!distinctPositions.has(`${position.x}:${position.y}`)) {
       distinctPositions.set(`${position.x}:${position.y}`);
     }
@@ -143,5 +143,5 @@ export const day_9 = () => {
 
   console.log(`1: ${distinctPositions.size}`);
   console.log(`2: TODO \n\n`);
-  // console.log(JSON.stringify(matrix, null, 2));
+  // console.log(JSON.stringify(snake, null, 2));
 };
