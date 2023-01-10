@@ -107,10 +107,11 @@ class Matrix {
   create() {
     const instructions = getInstructions();
     this.matrix = instructions.forEach((instruction) => {
-      this.move(0, instruction); // always move head
       for (let i = 0; i < this.last; i++) {
+        if (i === 0) {
+          this.move(0, instruction); // always move head
+        }
         if (this.isApart(i)) {
-          //this.move(i + 1, instruction); // TODO troubleshoot logic here for snake Part 2
           this.snake[i + 1] = this.previousPosition;
         }
         this.previousPosition = this.snake[i];
