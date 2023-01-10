@@ -37,6 +37,7 @@ class Point {
 class Matrix {
   constructor(x = 0, y = 0) {
     this.snake = [new Point(x, y), new Point(x, y)];
+    this.last = this.snake.length - 1;
     this.previousPosition = this.snake[0];
     this.visitedHeadPositions = [
       {
@@ -46,8 +47,8 @@ class Matrix {
     ];
     this.visitedTailPositions = [
       {
-        x: this.snake[1].x,
-        y: this.snake[1].y,
+        x: this.snake[this.last].x,
+        y: this.snake[this.last].y,
       },
     ];
   }
@@ -83,8 +84,8 @@ class Matrix {
       if (this.isApart()) {
         this.snake[1] = this.previousPosition;
         this.visitedTailPositions.push({
-          x: this.snake[1].x,
-          y: this.snake[1].y,
+          x: this.snake[this.last].x,
+          y: this.snake[this.last].y,
         });
       }
       this.visitedHeadPositions.push({
