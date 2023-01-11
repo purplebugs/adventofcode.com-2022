@@ -36,19 +36,15 @@ class Point {
 }
 
 class Snake {
-  constructor(x = 0, y = 0) {
-    this.snake = [
-      new Point(x, y),
-      new Point(x, y), // TODO make length flexible so can run same code for Part 1
-      new Point(x, y),
-      new Point(x, y),
-      new Point(x, y),
-      new Point(x, y),
-      new Point(x, y),
-      new Point(x, y),
-      new Point(x, y),
-      new Point(x, y),
-    ];
+  constructor({ x = 0, y = 0, size = 2 } = {}) {
+    // Using constructor arguments: { x = 0, y = 0, size = 2 }
+    // and destructuring: = {}
+    // which merges the object passed into the class with the default values: const snake1 = new Snake({ size: 10 });
+    this.snake = [];
+
+    for (let i = 0; i < size; i++) {
+      this.snake.push(new Point(x, y));
+    }
 
     this.last = this.snake.length - 1;
     this.visitedHeadPositions = [
@@ -63,6 +59,18 @@ class Snake {
         y: this.snake[this.last].y,
       },
     ];
+  }
+
+  distinctTailPositionsVisited() {
+    let distinctPositions = new Set();
+
+    this.visitedTailPositions.forEach((position) => {
+      if (!distinctPositions.has(`${position.x}:${position.y}`)) {
+        distinctPositions.add(`${position.x}:${position.y}`);
+      }
+    });
+
+    return distinctPositions.size;
   }
 
   isApart(position) {
@@ -139,49 +147,18 @@ class Snake {
       });
     });
   }
-
-  walk(direction, steps) {
-    // TODO currently unused, another idea to think about
-    const newPosition = [];
-
-    if (direction === "R") {
-      this.snake.forEach((position, index) => {
-        if (index === 0) {
-          newPosition.push(new Point(this.snake[0].x + steps, this.snake[0].y));
-        }
-        if (index > 0) {
-          newPosition.push(
-            new Point(this.snake[index - 1].x + steps - 1, this.snake[0].y)
-          );
-        }
-      });
-    }
-
-    this.snake = newPosition;
-  }
 }
 
 export const day_9 = () => {
-  const snake = new Snake();
-  snake.create();
-  // snake.walk("R", 1);
-  // console.log("snake", snake);
-  // snake.walk("R", 2);
-  // console.log("snake", snake);
-  // snake.walk("R", 1);
-  // console.log("snake", snake);
+  const snake1 = new Snake({ size: 2 });
+  snake1.create();
 
-  let distinctPositions = new Map();
-
-  snake.visitedTailPositions.forEach((position) => {
-    if (!distinctPositions.has(`${position.x}:${position.y}`)) {
-      distinctPositions.set(`${position.x}:${position.y}`);
-    }
-  });
+  const snake2 = new Snake({ size: 10 });
+  snake2.create();
 
   console.log("DAY NINE\n");
 
-  console.log(`1: ${distinctPositions.size}`);
-  console.log(`2: TODO \n\n`);
+  console.log(`1: ${snake1.distinctTailPositionsVisited()}`);
+  console.log(`2: ${snake2.distinctTailPositionsVisited()}`);
   //console.log(JSON.stringify(snake, null, 2));
 };
