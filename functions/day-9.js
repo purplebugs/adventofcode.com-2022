@@ -1,5 +1,4 @@
 import { readFileSync } from "fs";
-
 //const day_9_data = "day-9-example.txt"; //  https://adventofcode.com/2022/day/9
 //const day_9_data = "day-9-example-part-2.txt"; //  https://adventofcode.com/2022/day/9
 const day_9_data = "day-9.txt"; //  https://adventofcode.com/2022/day/9
@@ -66,14 +65,38 @@ class Snake {
   }
 
   isApart(position) {
-    let isApart = false;
-    if (Math.abs(this.snake[position].x - this.snake[position + 1].x) > 1) {
-      isApart = true;
+    let straightApart = false;
+    let diagonallyApart = false;
+    let newPosition = { x: 0, y: 0 };
+    if (
+      Math.abs(this.snake[position].x - this.snake[position + 1].x) > 1 &&
+      Math.abs(this.snake[position].y - this.snake[position + 1].y) == 0
+    ) {
+      straightApart = true;
     }
-    if (Math.abs(this.snake[position].y - this.snake[position + 1].y) > 1) {
-      isApart = true;
+
+    if (
+      Math.abs(this.snake[position].y - this.snake[position + 1].y) > 1 &&
+      Math.abs(this.snake[position].x - this.snake[position + 1].x) == 0
+    ) {
+      straightApart = true;
     }
-    return isApart;
+
+    if (
+      Math.abs(this.snake[position].x - this.snake[position + 1].x) > 1 &&
+      Math.abs(this.snake[position].y - this.snake[position + 1].y) == 1
+    ) {
+      diagonallyApart = true;
+    }
+
+    if (
+      Math.abs(this.snake[position].y - this.snake[position + 1].y) > 1 &&
+      Math.abs(this.snake[position].x - this.snake[position + 1].x) == 1
+    ) {
+      diagonallyApart = true;
+    }
+    // TODO return position to move to
+    return { straightApart, diagonallyApart, newPosition };
   }
 
   move(position, instruction) {
@@ -113,11 +136,20 @@ class Snake {
           previousPos.splice(index, 1, new Point(position.x, position.y));
           this.move(0, instruction); // always move head
         }
-        if (index < this.snake.length - 1 && this.isApart(index)) {
+        if (
+          index < this.snake.length - 1 &&
+          this.isApart(index).straightApart
+        ) {
           previousPos.splice(index + 1, 1, this.snake[index + 1]);
           this.snake[index + 1] = previousPos[index];
         }
-
+        if (
+          index < this.snake.length - 1 &&
+          this.isApart(index).diagonallyApart
+        ) {
+          previousPos.splice(index + 1, 1, this.snake[index + 1]);
+          this.snake[index + 1] = previousPos[index]; //TODO update position diagonally
+        }
         this.visitedHeadPositions.push({
           x: this.snake[0].x,
           y: this.snake[0].y,
