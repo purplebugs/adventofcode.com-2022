@@ -51,7 +51,6 @@ class Snake {
     ];
 
     this.last = this.snake.length - 1;
-    this.previousPosition = this.snake[0];
     this.visitedHeadPositions = [
       {
         x: this.snake[0].x,
@@ -107,14 +106,18 @@ class Snake {
   create() {
     const instructions = getInstructions();
     instructions.forEach((instruction) => {
-      for (let i = 0; i < this.last; i++) {
-        if (i === 0) {
+      const previousPos = [];
+      this.snake.forEach((position, index) => {
+        // always track previous position
+        previousPos.splice(position, 1, new Point(position.x, position.y));
+        // console.log(previousPos);
+        if (index === 0) {
           this.move(0, instruction); // always move head
         }
-        if (this.isApart(i)) {
-          this.snake[i + 1] = this.previousPosition;
+        if (index < this.snake.length - 1 && this.isApart(index)) {
+          this.snake[index + 1] = previousPos[index];
         }
-        this.previousPosition = this.snake[0];
+
         this.visitedHeadPositions.push({
           x: this.snake[0].x,
           y: this.snake[0].y,
@@ -123,14 +126,41 @@ class Snake {
           x: this.snake[this.last].x,
           y: this.snake[this.last].y,
         });
-      }
+      });
     });
+  }
+
+  walk(direction, steps) {
+    // TODO currently unused, another idea to think about
+    const newPosition = [];
+
+    if (direction === "R") {
+      this.snake.forEach((position, index) => {
+        if (index === 0) {
+          newPosition.push(new Point(this.snake[0].x + steps, this.snake[0].y));
+        }
+        if (index > 0) {
+          newPosition.push(
+            new Point(this.snake[index - 1].x + steps - 1, this.snake[0].y)
+          );
+        }
+      });
+    }
+
+    this.snake = newPosition;
   }
 }
 
 export const day_9 = () => {
   const snake = new Snake();
   snake.create();
+  // snake.walk("R", 1);
+  // console.log("snake", snake);
+  // snake.walk("R", 2);
+  // console.log("snake", snake);
+  // snake.walk("R", 1);
+  // console.log("snake", snake);
+
   let distinctPositions = new Map();
 
   snake.visitedTailPositions.forEach((position) => {
@@ -143,5 +173,5 @@ export const day_9 = () => {
 
   console.log(`1: ${distinctPositions.size}`);
   console.log(`2: TODO \n\n`);
-  // console.log(JSON.stringify(snake, null, 2));
+  //console.log(JSON.stringify(snake, null, 2));
 };
