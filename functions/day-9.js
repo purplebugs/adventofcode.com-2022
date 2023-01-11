@@ -1,7 +1,7 @@
 import { readFileSync } from "fs";
 
 //const day_9_data = "day-9-example.txt"; //  https://adventofcode.com/2022/day/9
-//const day_9_data = "day-9-example-part-2.txt"; //  https://adventofcode.com/2022/day/9
+// const day_9_data = "day-9-example-part-2.txt"; //  https://adventofcode.com/2022/day/9
 const day_9_data = "day-9.txt"; //  https://adventofcode.com/2022/day/9
 
 const data = readFileSync(`./data/${day_9_data}`, "utf8");
@@ -71,7 +71,10 @@ class Snake {
     if (Math.abs(this.snake[position].x - this.snake[position + 1].x) > 1) {
       isApart = true;
       newPosition = {
-        x: this.snake[position].x + 1,
+        x:
+          this.snake[position].x - this.snake[position + 1].x >= 0
+            ? this.snake[position].x - 1
+            : this.snake[position].x + 1,
         y: this.snake[position].y,
       };
     }
@@ -79,7 +82,10 @@ class Snake {
       isApart = true;
       newPosition = {
         x: this.snake[position].x,
-        y: this.snake[position].y + 1,
+        y:
+          this.snake[position].y - this.snake[position + 1].y >= 0
+            ? this.snake[position].y - 1
+            : this.snake[position].y + 1,
       };
     }
     return { isApart, newPosition };
@@ -124,7 +130,7 @@ class Snake {
         }
         if (index < this.snake.length - 1 && this.isApart(index).isApart) {
           previousPos.splice(index + 1, 1, this.snake[index + 1]);
-          this.snake[index + 1] = previousPos[index]; // this.isApart(index).newPosition; // TODO explore using newPosition
+          this.snake[index + 1] = this.isApart(index).newPosition; //previousPos[index]; // this.isApart(index).newPosition; // TODO explore using newPosition
         }
 
         this.visitedHeadPositions.push({
