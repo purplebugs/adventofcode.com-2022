@@ -39,15 +39,15 @@ class Snake {
   constructor(x = 0, y = 0) {
     this.snake = [
       new Point(x, y),
+      new Point(x, y), // TODO make length flexible so can run same code for Part 1
       new Point(x, y),
-      // new Point(x, y),
-      // new Point(x, y),
-      // new Point(x, y),
-      // new Point(x, y),
-      // new Point(x, y),
-      // new Point(x, y),
-      // new Point(x, y),
-      // new Point(x, y),
+      new Point(x, y),
+      new Point(x, y),
+      new Point(x, y),
+      new Point(x, y),
+      new Point(x, y),
+      new Point(x, y),
+      new Point(x, y),
     ];
 
     this.last = this.snake.length - 1;
@@ -67,28 +67,23 @@ class Snake {
 
   isApart(position) {
     let isApart = false;
-    let newPosition = { x: 0, y: 0 };
+    let newX = this.snake[position].x;
+    let newY = this.snake[position].y;
     if (Math.abs(this.snake[position].x - this.snake[position + 1].x) > 1) {
       isApart = true;
-      newPosition = {
-        x:
-          this.snake[position].x - this.snake[position + 1].x >= 0
-            ? this.snake[position].x - 1
-            : this.snake[position].x + 1,
-        y: this.snake[position].y,
-      };
+      newX =
+        this.snake[position].x - this.snake[position + 1].x >= 0
+          ? this.snake[position].x - 1
+          : this.snake[position].x + 1;
     }
     if (Math.abs(this.snake[position].y - this.snake[position + 1].y) > 1) {
       isApart = true;
-      newPosition = {
-        x: this.snake[position].x,
-        y:
-          this.snake[position].y - this.snake[position + 1].y >= 0
-            ? this.snake[position].y - 1
-            : this.snake[position].y + 1,
-      };
+      newY =
+        this.snake[position].y - this.snake[position + 1].y >= 0
+          ? this.snake[position].y - 1
+          : this.snake[position].y + 1;
     }
-    return { isApart, newPosition };
+    return { isApart, newPosition: { x: newX, y: newY } };
   }
 
   move(position, instruction) {
