@@ -40,6 +40,7 @@ class Snake {
     // Using constructor arguments: { x = 0, y = 0, size = 2 }
     // and destructuring: = {}
     // which merges the object passed into the class with the default values: const snake1 = new Snake({ size: 10 });
+
     this.snake = [];
 
     for (let i = 0; i < size; i++) {
