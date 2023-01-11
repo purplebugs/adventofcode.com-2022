@@ -133,6 +133,7 @@ class Snake {
         }
 
         this.visitedHeadPositions.push({
+          // Don't need to track this.visitedHeadPositions - was used for troubleshooting
           x: this.snake[0].x,
           y: this.snake[0].y,
         });
