@@ -67,13 +67,22 @@ class Snake {
 
   isApart(position) {
     let isApart = false;
+    let newPosition = { x: 0, y: 0 };
     if (Math.abs(this.snake[position].x - this.snake[position + 1].x) > 1) {
       isApart = true;
+      newPosition = {
+        x: this.snake[position].x + 1,
+        y: this.snake[position].y,
+      };
     }
     if (Math.abs(this.snake[position].y - this.snake[position + 1].y) > 1) {
       isApart = true;
+      newPosition = {
+        x: this.snake[position].x,
+        y: this.snake[position].y + 1,
+      };
     }
-    return isApart;
+    return { isApart, newPosition };
   }
 
   move(position, instruction) {
@@ -113,9 +122,9 @@ class Snake {
           previousPos.splice(index, 1, new Point(position.x, position.y));
           this.move(0, instruction); // always move head
         }
-        if (index < this.snake.length - 1 && this.isApart(index)) {
+        if (index < this.snake.length - 1 && this.isApart(index).isApart) {
           previousPos.splice(index + 1, 1, this.snake[index + 1]);
-          this.snake[index + 1] = previousPos[index];
+          this.snake[index + 1] = previousPos[index]; // this.isApart(index).newPosition; // TODO explore using newPosition
         }
 
         this.visitedHeadPositions.push({
