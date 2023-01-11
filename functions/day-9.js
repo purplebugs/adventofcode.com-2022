@@ -105,16 +105,16 @@ class Snake {
 
   create() {
     const instructions = getInstructions();
+    const previousPos = [];
     instructions.forEach((instruction) => {
-      const previousPos = [];
       this.snake.forEach((position, index) => {
-        // always track previous position
-        previousPos.splice(position, 1, new Point(position.x, position.y));
         // console.log(previousPos);
         if (index === 0) {
+          previousPos.splice(index, 1, new Point(position.x, position.y));
           this.move(0, instruction); // always move head
         }
         if (index < this.snake.length - 1 && this.isApart(index)) {
+          previousPos.splice(index + 1, 1, this.snake[index + 1]);
           this.snake[index + 1] = previousPos[index];
         }
 
